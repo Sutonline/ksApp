@@ -36,9 +36,8 @@ public class DailyCheck extends AppCompatActivity {
         viewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("http://www.baidu.com"));
-                startActivity(intent);
+                Intent intent = new Intent(DailyCheck.this, SummaryActivity.class);
+                startActivityForResult(intent, 1);
             }
         });
     }
@@ -61,5 +60,19 @@ public class DailyCheck extends AppCompatActivity {
             default:
         }
         return true;
+    }
+
+    // requestCode: 唯一的请求码，多个活动来验证请求来源 resultCode: 确定结果是否成功 data: 数据
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case 1:
+                if (resultCode == RESULT_OK) {
+                    String returnedData = data.getStringExtra("data_return");
+                    Log.d("返回的数据是: FirstActivity", returnedData);
+                }
+                break;
+            default:
+        }
     }
 }

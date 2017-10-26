@@ -1,6 +1,7 @@
 package android.kevin.cn.ks;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -26,9 +27,19 @@ public class SummaryActivity extends Activity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(SummaryActivity.this, "return to dailycheck", Toast.LENGTH_SHORT).show();;
+                Intent intent = new Intent();
+                intent.putExtra("data_return", "Hello FirstActivity");
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra("data_return", "back pressed!!!");
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }
