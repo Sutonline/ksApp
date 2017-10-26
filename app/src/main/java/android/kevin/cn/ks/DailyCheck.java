@@ -1,6 +1,8 @@
 package android.kevin.cn.ks;
 
 import android.content.Intent;
+import android.kevin.cn.ks.lifeCycle.DialogActivity;
+import android.kevin.cn.ks.lifeCycle.NormalActivity;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,25 +23,25 @@ public class DailyCheck extends AppCompatActivity {
         setContentView(R.layout.activity_daily_check);
         Log.d("DailyCheckActivity", "onCreate execute11111");
 
-        // 增加button
-        Button button = (Button) findViewById(R.id.button_1);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button startNormalActivity = (Button) findViewById(R.id.start_normal_activity);
+        Button startDialogActivity = (Button) findViewById(R.id.start_dialog_activity);
+
+        startNormalActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DailyCheck.this, SummaryActivity.class);
+                Intent intent = new Intent(DailyCheck.this, NormalActivity.class);
                 startActivity(intent);
             }
         });
 
-        // 增加浏览器button
-        Button viewButton = (Button) findViewById(R.id.button_3);
-        viewButton.setOnClickListener(new View.OnClickListener() {
+        startDialogActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DailyCheck.this, SummaryActivity.class);
-                startActivityForResult(intent, 1);
+                Intent intent = new Intent(DailyCheck.this, DialogActivity.class);
+                startActivity(intent);
             }
         });
+
     }
 
     @Override
@@ -74,5 +76,41 @@ public class DailyCheck extends AppCompatActivity {
                 break;
             default:
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("DailyCheck", "onStart");
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        Log.d("DailyCheck", "onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("DailyCheck", "onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("DailyCheck", "onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("DailyCheck", "onDestory");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("DailyCheck", "onRestart");
     }
 }
