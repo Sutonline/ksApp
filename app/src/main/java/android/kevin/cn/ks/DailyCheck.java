@@ -1,6 +1,7 @@
 package android.kevin.cn.ks;
 
 import android.content.Intent;
+import android.kevin.cn.ks.broadcast.BroadcastActivity;
 import android.kevin.cn.ks.lifeCycle.DialogActivity;
 import android.kevin.cn.ks.lifeCycle.NormalActivity;
 import android.kevin.cn.ks.message.MsgActivity;
@@ -37,8 +38,8 @@ public class DailyCheck extends AppCompatActivity {
         startNormalActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DailyCheck.this, NormalActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent("cn.ks.broadcast.MY_BROADCAST");
+                sendOrderedBroadcast(intent, null); //null 是一个权限代表
             }
         });
 

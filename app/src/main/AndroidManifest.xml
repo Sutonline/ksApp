@@ -22,6 +22,17 @@
         <activity android:name=".lifeCycle.DialogActivity" android:theme="@android:style/Theme.Dialog">
         </activity>
         <activity android:name=".message.MsgActivity" />
+        <activity android:name=".broadcast.BroadcastActivity" />
+        <receiver android:name=".broadcast.MyBroadcastReceiver">
+            <intent-filter>
+                <action android:name="cn.ks.broadcast.MY_BROADCAST" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".broadcast.OrderedReceiver">
+            <intent-filter android:priority="100">
+                <action android:name="cn.ks.broadcast.MY_BROADCAST" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
