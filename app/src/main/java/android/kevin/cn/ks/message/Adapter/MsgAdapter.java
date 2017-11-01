@@ -56,7 +56,7 @@ public class MsgAdapter extends ArrayAdapter<Msg> {
             viewHolder.rightMsg.setText(msg.getContent());
         }
 
-        return super.getView(position, convertView, parent);
+        return view;
     }
 
     class ViewHolder {

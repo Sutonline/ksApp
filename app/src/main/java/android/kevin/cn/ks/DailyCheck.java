@@ -3,6 +3,7 @@ package android.kevin.cn.ks;
 import android.content.Intent;
 import android.kevin.cn.ks.lifeCycle.DialogActivity;
 import android.kevin.cn.ks.lifeCycle.NormalActivity;
+import android.kevin.cn.ks.message.MsgActivity;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ public class DailyCheck extends AppCompatActivity {
 
         Button startNormalActivity = (Button) findViewById(R.id.start_normal_activity);
         Button startDialogActivity = (Button) findViewById(R.id.start_dialog_activity);
+        Button chatButton = (Button) findViewById(R.id.start_msg_activity);
 
         startNormalActivity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,6 +46,14 @@ public class DailyCheck extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DailyCheck.this, DialogActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        chatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DailyCheck.this, MsgActivity.class);
                 startActivity(intent);
             }
         });

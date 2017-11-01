@@ -27,6 +27,12 @@
             android:layout_height="wrap_content"
             android:text="@string/dialog_button" />
 
+        <Button
+            android:id="@+id/start_msg_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chat" />
+
         <ListView
             android:id="@+id/list_view"
             android:layout_width="wrap_content"
