@@ -38,8 +38,8 @@ public class DailyCheck extends AppCompatActivity {
         startNormalActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent("cn.ks.broadcast.MY_BROADCAST");
-                sendOrderedBroadcast(intent, null); //null 是一个权限代表
+                Intent intent = new Intent("cn.ks.broadcast.FORCE_OFFLINE");
+                sendBroadcast(intent);
             }
         });
 

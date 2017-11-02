@@ -7,4 +7,8 @@
     <string name="type_hint">Type something here</string>
     <string name="send_message">send</string>
     <string name="chat">chat</string>
+    <string name="password">Password:</string>
+    <string name="account">Account:</string>
+    <string name="account_hint">Input your account</string>
+    <string name="login_button">login</string>
 </resources>
