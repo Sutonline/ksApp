@@ -5,6 +5,7 @@ import android.kevin.cn.ks.broadcast.BroadcastActivity;
 import android.kevin.cn.ks.lifeCycle.DialogActivity;
 import android.kevin.cn.ks.lifeCycle.NormalActivity;
 import android.kevin.cn.ks.message.MsgActivity;
+import android.kevin.cn.ks.persistence.PersistenceActivity;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,8 +39,8 @@ public class DailyCheck extends AppCompatActivity {
         startNormalActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent("cn.ks.broadcast.FORCE_OFFLINE");
-                sendBroadcast(intent);
+                Intent intent = new Intent(DailyCheck.this, PersistenceActivity.class);
+                startActivity(intent);
             }
         });
 

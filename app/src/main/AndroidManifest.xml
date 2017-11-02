@@ -28,6 +28,7 @@
         <activity android:name=".broadcast.BroadcastActivity" />
         <activity android:name=".broadcast.LoginActivity" >
         </activity>
+        <activity android:name=".persistence.PersistenceActivity" />
 
         <receiver android:name=".broadcast.MyBroadcastReceiver">
             <intent-filter>
