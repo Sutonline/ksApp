@@ -2,6 +2,7 @@ package android.kevin.cn.ks;
 
 import android.content.Intent;
 import android.kevin.cn.ks.broadcast.BroadcastActivity;
+import android.kevin.cn.ks.database.MyDatabaseHelper;
 import android.kevin.cn.ks.lifeCycle.DialogActivity;
 import android.kevin.cn.ks.lifeCycle.NormalActivity;
 import android.kevin.cn.ks.message.MsgActivity;
@@ -25,6 +26,8 @@ public class DailyCheck extends AppCompatActivity {
         "Apple", "Banana", "Orange", "Watermelon", "Pear", "Grape", "Pineapple", "Strawberry", "Cherry", "Mango"
     };
 
+    private MyDatabaseHelper dbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,11 +39,12 @@ public class DailyCheck extends AppCompatActivity {
         Button startDialogActivity = (Button) findViewById(R.id.start_dialog_activity);
         Button chatButton = (Button) findViewById(R.id.start_msg_activity);
 
+        dbHelper = new MyDatabaseHelper(this, "BookStore.db", null, 1);
+
         startNormalActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DailyCheck.this, PersistenceActivity.class);
-                startActivity(intent);
+                dbHelper.getWritableDatabase();
             }
         });
 
