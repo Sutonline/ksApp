@@ -3,6 +3,7 @@
     package="android.kevin.cn.ks">
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:allowBackup="true"
@@ -18,33 +19,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SummaryActivity">
-        </activity>
-        <activity android:name=".lifeCycle.NormalActivity">
-        </activity>
-        <activity android:name=".lifeCycle.DialogActivity" android:theme="@android:style/Theme.Dialog">
-        </activity>
-        <activity android:name=".message.MsgActivity" />
-        <activity android:name=".broadcast.BroadcastActivity" />
-        <activity android:name=".broadcast.LoginActivity" >
-        </activity>
-        <activity android:name=".persistence.PersistenceActivity" />
-
-        <receiver android:name=".broadcast.MyBroadcastReceiver">
-            <intent-filter>
-                <action android:name="cn.ks.broadcast.MY_BROADCAST" />
-            </intent-filter>
-        </receiver>
-        <receiver android:name=".broadcast.OrderedReceiver">
-            <intent-filter android:priority="100">
-                <action android:name="cn.ks.broadcast.MY_BROADCAST" />
-            </intent-filter>
-        </receiver>
-        <receiver android:name=".broadcast.OfflineReceiver">
-            <intent-filter>
-                <action android:name="cn.ks.broadcast.FORCE_OFFLINE" />
-            </intent-filter>
-        </receiver>
     </application>
 
 </manifest>

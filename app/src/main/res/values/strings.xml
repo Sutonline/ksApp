@@ -1,14 +1,3 @@
 <resources>
     <string name="app_name">Ks</string>
-    <string name="normal_button">Normal Button</string>
-    <string name="dialog_button">Dialog Button</string>
-    <string name="normal_text">This is a normal activity</string>
-    <string name="dialog_text">This is a dialog activity</string>
-    <string name="type_hint">Type something here</string>
-    <string name="send_message">send</string>
-    <string name="chat">chat</string>
-    <string name="password">Password:</string>
-    <string name="account">Account:</string>
-    <string name="account_hint">Input your account</string>
-    <string name="login_button">login</string>
 </resources>
