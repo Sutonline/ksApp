@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_control"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".DailyCheck">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.nightonke.boommenu.BoomMenuButton
+            android:id="@+id/boom_menu_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            app:bmb_buttonEnum="textInsideCircle"
+            app:bmb_piecePlaceEnum="piecePlace_dot_9_2"
+            app:bmb_buttonPlaceEnum="buttonPlace_sc_9_1"
+            app:bmb_boomInWholeScreen="false"
+            />
+    </FrameLayout>
+
+
+
+</LinearLayout>
