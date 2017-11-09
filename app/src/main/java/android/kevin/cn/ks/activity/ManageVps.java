@@ -1,6 +1,5 @@
 package android.kevin.cn.ks.activity;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.kevin.cn.ks.R;
@@ -21,7 +20,7 @@ import static com.scwang.smartrefresh.layout.util.DensityUtil.dp2px;
 
 /**
  * 管理事务
- * author: yongkang.zhang
+ * @author yongkang.zhang
  * Created by yongkang.zhang on 2017/11/7.
  */
 public class ManageVps extends BaseActivity {

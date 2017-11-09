@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Ks</string>
+    <string name="plan_name">戒心</string>
+    <string name="add_plan">添加计划</string>
+    <string name="sos_btn_text">sos</string>
+    <string name="check_btn_text">check</string>
+    <string name="gp_btn_text">Giveup</string>
+    <string name="continue_days">5</string>
+    <string name="insist_days">5</string>
+    <string name="please_select_plan">Please select plan</string>
 </resources>

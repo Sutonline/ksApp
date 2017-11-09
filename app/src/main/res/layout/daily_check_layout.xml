@@ -1,13 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_control"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".activity.DailyCheck">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#e6fff2">
+
+        <RelativeLayout
+            android:id="@+id/daily_check_head"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2">
+
+            <!-- 添加新计划 -->
+            <LinearLayout
+                android:id="@+id/plan"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/plan_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/plan_name"
+                    android:layout_gravity="center"
+                    />
+                <TextView
+                    android:id="@+id/insist_days"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/insist_days"
+                    android:layout_gravity="center"
+                    />
+            </LinearLayout>
 
 
-</LinearLayout>
+            <com.gc.materialdesign.views.ButtonRectangle
+                android:id="@+id/add_plan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="30dp"
+                android:background="#00ff80"
+                android:text="@string/add_plan"
+                />
+
+
+            <!-- 三个button -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal">
+
+                <com.gc.materialdesign.views.ButtonRectangle
+                    android:id="@+id/sos_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:background="#00ff80"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/sos_btn_text"
+                    />
+
+                <com.gc.materialdesign.views.ButtonRectangle
+                    android:id="@+id/check_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:background="#00ff80"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/check_btn_text"
+                    />
+
+                <com.gc.materialdesign.views.ButtonRectangle
+                    android:id="@+id/gp_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:background="#00ff80"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/gp_btn_text"
+                    />
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3">
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout >
