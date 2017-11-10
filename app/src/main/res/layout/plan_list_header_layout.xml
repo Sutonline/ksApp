@@ -6,14 +6,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textSize="17sp"
         android:text="@string/please_select_plan" />
-
-    <ListView
-        android:id="@+id/planList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
-    </ListView>
 
 
 </android.support.constraint.ConstraintLayout>

@@ -7,5 +7,7 @@
     <string name="gp_btn_text">Giveup</string>
     <string name="continue_days">5</string>
     <string name="insist_days">5</string>
-    <string name="please_select_plan">Please select plan</string>
+    <string name="please_select_plan">请选择计划: </string>
+    <string name="accept">确定</string>
+    <string name="cancle">取消</string>
 </resources>
