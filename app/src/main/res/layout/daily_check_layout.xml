@@ -63,13 +63,13 @@
                 android:orientation="horizontal">
 
                 <com.gc.materialdesign.views.ButtonRectangle
-                    android:id="@+id/sos_btn"
+                    android:id="@+id/up_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:background="#00ff80"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="4dp"
-                    android:text="@string/sos_btn_text"
+                    android:text="@string/up_btn_text"
                     />
 
                 <com.gc.materialdesign.views.ButtonRectangle

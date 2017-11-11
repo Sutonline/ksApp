@@ -2,12 +2,20 @@
     <string name="app_name">Ks</string>
     <string name="plan_name">戒心</string>
     <string name="add_plan">添加计划</string>
-    <string name="sos_btn_text">sos</string>
-    <string name="check_btn_text">check</string>
-    <string name="gp_btn_text">Giveup</string>
+    <string name="up_btn_text">up</string>
+    <string name="check_btn_text">签到</string>
+    <string name="gp_btn_text">放弃</string>
     <string name="continue_days">5</string>
     <string name="insist_days">5</string>
     <string name="please_select_plan">请选择计划: </string>
     <string name="accept">确定</string>
     <string name="cancle">取消</string>
+    <string name="check_dialog_1">我</string>
+    <string name="check_dialog_2">今</string>
+    <string name="check_dialog_3">天</string>
+    <string name="check_dialog_4">坚</string>
+    <string name="check_dialog_5">持</string>
+    <string name="check_dialog_6">计</string>
+    <string name="check_dialog_7">划</string>
+    <string name="check_dialog_8">了</string>
 </resources>

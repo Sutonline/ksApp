@@ -13,13 +13,14 @@ import android.widget.Toast;
 import com.gc.materialdesign.views.ButtonRectangle;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnItemClickListener;
+import com.orhanobut.dialogplus.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author yongkang.zhang
- * Created by yongkang.zhang on 2017/11/6.
+ *         Created by yongkang.zhang on 2017/11/6.
  */
 
 public class DailyCheck extends BaseActivity {
@@ -28,25 +29,41 @@ public class DailyCheck extends BaseActivity {
     private static final List<Plan> PLAN_LIST = new ArrayList<>();
     private LinearLayout planLayout;
     private ButtonRectangle addPlan;
-    private ButtonRectangle sos;
+    private ButtonRectangle up;
     private ButtonRectangle check;
     private ButtonRectangle giveUp;
     private TextView planName;
+    //  check的8个button
+    private static final Integer[] CHECK_BTNS = new Integer[]{R.id.check_btn_1, R.id.check_btn_2,
+        R.id.check_btn_3, R.id.check_btn_4, R.id.check_btn_5, R.id.check_btn_6, R.id.check_btn_7, R.id.check_btn_8};
+    private static int CHECKED_BTNS = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.daily_check_layout);
+        planLayout = (LinearLayout) findViewById(R.id.plan);
+        addPlan = (ButtonRectangle) findViewById(R.id.add_plan);
+        up = (ButtonRectangle) findViewById(R.id.up_btn);
+        check = (ButtonRectangle) findViewById(R.id.check_btn);
+        giveUp = (ButtonRectangle) findViewById(R.id.gp_btn);
+        planName = (TextView) findViewById(R.id.plan_name);
+
         initButton();
     }
 
     private void initButton() {
-        planLayout = (LinearLayout) findViewById(R.id.plan);
-        addPlan = (ButtonRectangle) findViewById(R.id.add_plan);
-        sos = (ButtonRectangle) findViewById(R.id.sos_btn);
-        check = (ButtonRectangle) findViewById(R.id.check_btn);
-        giveUp = (ButtonRectangle) findViewById(R.id.gp_btn);
-        planName = (TextView) findViewById(R.id.plan_name);
+        // 初始化计划dialog
+        initPlan();
+
+        // 加载check
+        initCheck();
+
+
+    }
+
+    private void initPlan() {
+        // plan change
         if (IS_HAS_PLAN == 1) {
             planLayout.setVisibility(View.VISIBLE);
             addPlan.setVisibility(View.INVISIBLE);
@@ -54,21 +71,43 @@ public class DailyCheck extends BaseActivity {
             planLayout.setVisibility(View.INVISIBLE);
             addPlan.setVisibility(View.VISIBLE);
         }
-
-        // 初始化添加计划按钮
-        initAddPlan();
-
+        addPlan.setOnClickListener(planChange());
+        planName.setOnClickListener(planChange());
     }
 
-    private void initAddPlan() {
-        addPlan.setOnClickListener(new View.OnClickListener() {
+    private void initCheck() {
+        // 每次init都置成0
+        CHECKED_BTNS = 0;
+        check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogPlus dialogPlus = DialogPlus.newDialog(DailyCheck.this)
+                        .setGravity(Gravity.CENTER)
+                        .setContentHolder(new ViewHolder(R.layout.check_dialog_layout))
+                        .setPadding(10, 10, 10, 10)
+                        .setCancelable(true)
+                        .create();
+                for (int i = 0; i < 8; i++) {
+                    ButtonRectangle button = (ButtonRectangle) dialogPlus.getHolderView().findViewById(CHECK_BTNS[i]);
+                    button.setOnClickListener(checkBtnClick());
+                }
+                dialogPlus.show();
+            }
+        });
+    }
+
+
+    // plan change dialog
+    private View.OnClickListener planChange() {
+        return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 initPlanList();
                 PlanAdapter planAdapter = new PlanAdapter(DailyCheck.this, PLAN_LIST);
                 final DialogPlus dialogPlus = DialogPlus.newDialog(DailyCheck.this)
                         .setHeader(R.layout.plan_list_header_layout)
-                        .setFooter(R.layout.plan_list_footer_layout)
+                        //  不使用确定和取消按钮
+                        // .setFooter(R.layout.plan_list_footer_layout)
                         .setAdapter(planAdapter)
                         .setOnItemClickListener(new OnItemClickListener() {
                             @Override
@@ -84,26 +123,29 @@ public class DailyCheck extends BaseActivity {
                         .setInAnimation(R.anim.abc_fade_in)
                         .setOutAnimation(R.anim.abc_fade_out)
                         .setPadding(10, 10, 10, 30)
-                        .setCancelable(false)
+                        .setCancelable(true)
                         .create();
-                ButtonRectangle add = (ButtonRectangle) dialogPlus.getFooterView().findViewById(R.id.add);
-                add.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(DailyCheck.this, "你点击了确定", Toast.LENGTH_SHORT).show();
-                        dialogPlus.dismiss();
-                    }
-                });
-                ButtonRectangle cancle = (ButtonRectangle) dialogPlus.getFooterView().findViewById(R.id.cancle);
-                cancle.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialogPlus.dismiss();
-                    }
-                });
                 dialogPlus.show();
             }
-        });
+        };
+    }
+
+    private View.OnClickListener checkBtnClick() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 每一个button点击的时候变颜色
+                ButtonRectangle buttonRectangle = (ButtonRectangle) v;
+                buttonRectangle.setBackgroundColor(0x009933);
+
+                // 检查是否8个都点击了，如果是的话就打卡成功
+                if (CHECKED_BTNS >= 8) {
+                    Toast.makeText(DailyCheck.this, "签到成功", Toast.LENGTH_SHORT).show();
+                }
+
+                CHECKED_BTNS += 1;
+            }
+        };
     }
 
 
@@ -122,6 +164,10 @@ public class DailyCheck extends BaseActivity {
 
     private void showPlan(Plan plan) {
         IS_HAS_PLAN = 1;
+        // 如果选择的是同一个 不变化
+        if (this.planName.getText().equals(plan.getName())) {
+            return;
+        }
         this.planLayout.setVisibility(View.VISIBLE);
         this.addPlan.setVisibility(View.INVISIBLE);
         this.planName.setText(plan.getName());
