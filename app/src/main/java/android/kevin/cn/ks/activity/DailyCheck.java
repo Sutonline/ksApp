@@ -1,5 +1,7 @@
 package android.kevin.cn.ks.activity;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.kevin.cn.ks.R;
 import android.kevin.cn.ks.adapter.PlanAdapter;
 import android.kevin.cn.ks.domain.Plan;
@@ -37,6 +39,8 @@ public class DailyCheck extends BaseActivity {
     private static final Integer[] CHECK_BTNS = new Integer[]{R.id.check_btn_1, R.id.check_btn_2,
         R.id.check_btn_3, R.id.check_btn_4, R.id.check_btn_5, R.id.check_btn_6, R.id.check_btn_7, R.id.check_btn_8};
     private static int CHECKED_BTNS = 0;
+    // 是否今天已签到
+    private static int CHECK_FLAG = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +63,12 @@ public class DailyCheck extends BaseActivity {
         // 加载check
         initCheck();
 
+        // 初始化up
+
+
+        // 初始化giveUp
+
+
 
     }
 
@@ -77,7 +87,7 @@ public class DailyCheck extends BaseActivity {
 
     private void initCheck() {
         // 每次init都置成0
-        CHECKED_BTNS = 0;
+        CHECKED_BTNS = 1;
         check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,11 +99,25 @@ public class DailyCheck extends BaseActivity {
                         .create();
                 for (int i = 0; i < 8; i++) {
                     ButtonRectangle button = (ButtonRectangle) dialogPlus.getHolderView().findViewById(CHECK_BTNS[i]);
-                    button.setOnClickListener(checkBtnClick());
+                    button.setOnClickListener(checkBtnClick(dialogPlus));
                 }
                 dialogPlus.show();
             }
         });
+    }
+
+    private void initGiveUp() {
+        giveUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogPlus dialogPlus = DialogPlus.newDialog(getActivity())
+                        .setContentHolder(new ViewHolder(R.layout.give_up_layout))
+                        .setPadding(10, 10, 10, 10)
+                        .setCancelable(true)
+                        .create();
+            }
+        });
+
     }
 
 
@@ -130,17 +154,18 @@ public class DailyCheck extends BaseActivity {
         };
     }
 
-    private View.OnClickListener checkBtnClick() {
+    private View.OnClickListener checkBtnClick(final DialogPlus dialogPlus) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // 每一个button点击的时候变颜色
                 ButtonRectangle buttonRectangle = (ButtonRectangle) v;
-                buttonRectangle.setBackgroundColor(0x009933);
+                buttonRectangle.setBackgroundColor(Color.parseColor("#33cc33"));
 
                 // 检查是否8个都点击了，如果是的话就打卡成功
                 if (CHECKED_BTNS >= 8) {
                     Toast.makeText(DailyCheck.this, "签到成功", Toast.LENGTH_SHORT).show();
+                    dialogPlus.dismiss();
                 }
 
                 CHECKED_BTNS += 1;
@@ -173,4 +198,8 @@ public class DailyCheck extends BaseActivity {
         this.planName.setText(plan.getName());
     }
 
+
+    private Context getActivity() {
+        return DailyCheck.this;
+    }
 }
