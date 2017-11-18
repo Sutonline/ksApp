@@ -21,4 +21,7 @@
     <string name="confirm_giveup">确认放弃吗</string>
     <string name="confirm_gp_btn_text">确认?</string>
     <string name="cancle_gp_btn_text">取消</string>
+    <string name="keep_success">keep</string>
+    <string name="down">更多</string>
+    <string name="broken">boom</string>
 </resources>
