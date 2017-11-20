@@ -1,6 +1,7 @@
 package android.kevin.cn.ks.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.kevin.cn.ks.R;
 import android.kevin.cn.ks.adapter.PlanAdapter;
@@ -16,6 +17,8 @@ import com.gc.materialdesign.views.ButtonRectangle;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnItemClickListener;
 import com.orhanobut.dialogplus.ViewHolder;
+
+import net.steamcrafted.materialiconlib.MaterialIconView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +38,13 @@ public class DailyCheck extends BaseActivity {
     private ButtonRectangle check;
     private ButtonRectangle giveUp;
     private TextView planName;
-    //  check的8个button
+    // 日历icon
+    private MaterialIconView calendar;
+    // 统计资料icon
+    private MaterialIconView statistics;
+    // 设置icon
+    private MaterialIconView settings;
+    // check的8个button
     private static final Integer[] CHECK_BTNS = new Integer[]{R.id.check_btn_1, R.id.check_btn_2,
         R.id.check_btn_3, R.id.check_btn_4, R.id.check_btn_5, R.id.check_btn_6, R.id.check_btn_7, R.id.check_btn_8};
     private static int CHECKED_BTNS = 0;
@@ -59,6 +68,7 @@ public class DailyCheck extends BaseActivity {
         check = (ButtonRectangle) findViewById(R.id.check_btn);
         giveUp = (ButtonRectangle) findViewById(R.id.gp_btn);
         planName = (TextView) findViewById(R.id.plan_name);
+        calendar = (MaterialIconView) findViewById(R.id.calendar);
 
         initButton();
     }
@@ -75,6 +85,9 @@ public class DailyCheck extends BaseActivity {
 
         // 初始化giveUp
         initGiveUp();
+
+        // 初始化日历
+        initCalendar();
 
     }
 
@@ -97,7 +110,7 @@ public class DailyCheck extends BaseActivity {
         check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogPlus dialogPlus = DialogPlus.newDialog(DailyCheck.this)
+                DialogPlus dialogPlus = DialogPlus.newDialog(getActivity())
                         .setGravity(Gravity.CENTER)
                         .setContentHolder(new ViewHolder(R.layout.check_dialog_layout))
                         .setPadding(10, 10, 10, 10)
@@ -143,10 +156,9 @@ public class DailyCheck extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         ButtonRectangle down = (ButtonRectangle) v;
-                        // down.setText(R.string.broken);
-                        down.setBackgroundColor(Color.parseColor("#33cc33"));
                         // 判断一下text
                         if (cur_index >= 9) {
+                            down.setText("boom");
                             down.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -175,6 +187,7 @@ public class DailyCheck extends BaseActivity {
                         .setContentHolder(new ViewHolder(R.layout.give_up_layout))
                         .setPadding(10, 10, 10, 10)
                         .setCancelable(true)
+                        .setGravity(Gravity.CENTER)
                         .create();
 
                 // 确认按钮
@@ -205,14 +218,43 @@ public class DailyCheck extends BaseActivity {
     }
 
 
+    /**
+     * 查看日历
+     */
+    private void initCalendar() {
+        calendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CalendarActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    /**
+     * 初始化资料统计
+     */
+    private void initStatistics() {
+
+    }
+
+
+    /**
+     * 初始化设置
+     */
+    private void initSettings() {
+
+    }
+
+
     // plan change dialog
     private View.OnClickListener planChange() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 initPlanList();
-                PlanAdapter planAdapter = new PlanAdapter(DailyCheck.this, PLAN_LIST);
-                final DialogPlus dialogPlus = DialogPlus.newDialog(DailyCheck.this)
+                PlanAdapter planAdapter = new PlanAdapter(getActivity(), PLAN_LIST);
+                final DialogPlus dialogPlus = DialogPlus.newDialog(getActivity())
                         .setHeader(R.layout.plan_list_header_layout)
                         //  不使用确定和取消按钮
                         // .setFooter(R.layout.plan_list_footer_layout)
@@ -221,7 +263,7 @@ public class DailyCheck extends BaseActivity {
                             @Override
                             public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
                                 showPlan(PLAN_LIST.get(position));
-                                Toast.makeText(DailyCheck.this, "选择的是: " + PLAN_LIST.get(position).getId(),
+                                Toast.makeText(getActivity(), "选择的是: " + PLAN_LIST.get(position).getId(),
                                         Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
                             }
@@ -248,7 +290,7 @@ public class DailyCheck extends BaseActivity {
 
                 // 检查是否8个都点击了，如果是的话就打卡成功
                 if (CHECKED_BTNS >= 8) {
-                    Toast.makeText(DailyCheck.this, "签到成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "签到成功", Toast.LENGTH_SHORT).show();
                     dialogPlus.dismiss();
                 }
 

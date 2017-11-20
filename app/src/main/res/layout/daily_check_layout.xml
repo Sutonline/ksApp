@@ -95,10 +95,49 @@
             </LinearLayout>
         </RelativeLayout>
 
+        <!-- 这里是统计 -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="3">
+            android:layout_weight="3"
+            android:gravity="center">
+
+            <!-- 日历 -->
+            <net.steamcrafted.materialiconlib.MaterialIconView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/calendar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="30dp"
+                android:layout_toStartOf="@+id/statistics"
+                android:scaleType="center"
+                app:materialIcon="calendar"
+                app:materialIconColor="#00ff80" />
+
+
+            <!-- 统计 -->
+            <net.steamcrafted.materialiconlib.MaterialIconView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/statistics"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:materialIcon="star"
+                app:materialIconColor="#00ff80"
+                />
+
+
+            <!-- 设置 -->
+            <net.steamcrafted.materialiconlib.MaterialIconView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/settings"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="30dp"
+                app:materialIcon="settings"
+                app:materialIconColor="#00ff80"
+                android:layout_toEndOf="@id/statistics"
+                />
+
         </RelativeLayout>
 
     </LinearLayout>
