@@ -19,7 +19,7 @@ public class PlanAdapter extends BaseAdapter {
 
     private Context context;
     private List<Plan> list;
-    public static ViewHolder viewHolder;
+    private static ViewHolder viewHolder;
 
     public PlanAdapter(Context context, List<Plan> list) {
         this.context = context;

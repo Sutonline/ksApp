@@ -77,4 +77,12 @@ public class BaseActivity extends AppCompatActivity {
         });
     }
 
+    protected Context getActivity() {
+        return this;
+    }
+
+    protected void shortShow(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
 }

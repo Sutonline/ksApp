@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:orientation="horizontal"
+    >
+
+    <!-- plan name -->
+    <TextView
+        android:id="@+id/plan_name"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="25dp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:background="@drawable/cat"
+        />
+
+
+    <!-- keep days -->
+    <TextView
+        android:id="@+id/keep_days"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:layout_marginStart="60dp"
+         />
+
+</LinearLayout>

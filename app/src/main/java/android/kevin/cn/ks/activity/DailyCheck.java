@@ -69,6 +69,8 @@ public class DailyCheck extends BaseActivity {
         giveUp = (ButtonRectangle) findViewById(R.id.gp_btn);
         planName = (TextView) findViewById(R.id.plan_name);
         calendar = (MaterialIconView) findViewById(R.id.calendar);
+        statistics = (MaterialIconView) findViewById(R.id.statistics);
+        settings = findViewById(R.id.settings);
 
         initButton();
     }
@@ -88,6 +90,9 @@ public class DailyCheck extends BaseActivity {
 
         // 初始化日历
         initCalendar();
+
+        // 初始化统计
+        initStatistics();
 
     }
 
@@ -235,7 +240,13 @@ public class DailyCheck extends BaseActivity {
      * 初始化资料统计
      */
     private void initStatistics() {
-
+        statistics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), StatisticsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -338,7 +349,7 @@ public class DailyCheck extends BaseActivity {
     }
 
 
-    private Context getActivity() {
+    protected Context getActivity() {
         return DailyCheck.this;
     }
 }

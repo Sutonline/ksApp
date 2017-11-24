@@ -2,6 +2,7 @@ package android.kevin.cn.ks.common;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.Toast;
 
 import com.gc.materialdesign.widgets.Dialog;
 

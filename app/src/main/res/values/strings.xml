@@ -24,4 +24,6 @@
     <string name="keep_success">keep</string>
     <string name="down">更多</string>
     <string name="broken">boom</string>
+    <string name="delete">删除</string>
+    <string name="recently_bad_habits">Recently Bad Habits</string>
 </resources>
