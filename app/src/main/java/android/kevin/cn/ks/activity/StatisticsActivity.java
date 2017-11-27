@@ -1,15 +1,13 @@
 package android.kevin.cn.ks.activity;
 
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.kevin.cn.ks.R;
 import android.kevin.cn.ks.adapter.PlanStatictisAdapter;
 import android.kevin.cn.ks.domain.Plan;
 import android.kevin.cn.ks.domain.PlanStatistics;
+import android.kevin.cn.ks.layout.StatisticsDaysLayout;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.TextView;
 
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.gc.materialdesign.views.ButtonRectangle;
@@ -24,10 +22,10 @@ import java.util.List;
  */
 public class StatisticsActivity extends BaseActivity {
 
-    private TextView curDays;
-    private TextView successUps;
-    private TextView failTimes;
-    private TextView longestDays;
+    private StatisticsDaysLayout curDays;
+    private StatisticsDaysLayout successUps;
+    private StatisticsDaysLayout failTimes;
+    private StatisticsDaysLayout longestDays;
     private SwipeMenuListView listView;
     private ButtonRectangle delete;
     // 最近三条计划
@@ -57,10 +55,34 @@ public class StatisticsActivity extends BaseActivity {
     }
 
     void initCurrent() {
-        curDays.setText("5");
-        successUps.setText("1");
-        failTimes.setText("8");
-        longestDays.setText("6");
+        curDays.setCreator(new StatisticsDaysLayout.Creator()
+                .name("当前天数")
+                .days("5")
+                .dayLineColor("#ffcccc")
+                .dayRoundColor("#ffcccc")
+        );
+        successUps.setCreator(new StatisticsDaysLayout.Creator()
+                .name("up次数")
+                .days("9")
+                .dayLineColor("#0454d6")
+                .dayRoundColor("#ffcccc")
+        );
+
+        failTimes.setCreator(new StatisticsDaysLayout.Creator()
+                .name("失败次数")
+                .days("2")
+                .dayLineColor("#ffcccc")
+                .dayRoundColor("#ffcccc")
+        );
+
+        longestDays.setCreator(new StatisticsDaysLayout.Creator()
+                .name("最长天数")
+                .days("8")
+                .dayLineColor("#ffcccc")
+                .dayRoundColor("#ffcccc")
+        );
+
+
     }
 
     void initHistory() {
