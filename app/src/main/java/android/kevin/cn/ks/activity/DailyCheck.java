@@ -94,6 +94,8 @@ public class DailyCheck extends BaseActivity {
         // 初始化统计
         initStatistics();
 
+        // 初始化setting
+        initSettings();
     }
 
     private void initPlan() {
@@ -254,7 +256,8 @@ public class DailyCheck extends BaseActivity {
      * 初始化设置
      */
     private void initSettings() {
-
+        Intent intent = new Intent(getActivity(), SettingActivity.class);
+        startActivity(intent);
     }
 
 

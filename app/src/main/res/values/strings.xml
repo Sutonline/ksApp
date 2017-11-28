@@ -26,4 +26,6 @@
     <string name="broken">boom</string>
     <string name="delete">删除</string>
     <string name="recently_bad_habits">Recently Bad Habits</string>
+    <string name="up_words">up words:</string>
+    <string name="add">add</string>
 </resources>

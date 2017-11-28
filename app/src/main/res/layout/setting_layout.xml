@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/up_word_title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="5dp"
+        android:textSize="19sp"
+        android:text="@string/up_words">
+    </TextView>
+
+    <!-- List -->
+    <com.baoyz.swipemenulistview.SwipeMenuListView
+        android:id="@+id/up_word_list"
+        android:layout_width="match_parent"
+        android:layout_height="360dp"
+        android:layout_below="@id/up_word_title">
+    </com.baoyz.swipemenulistview.SwipeMenuListView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/up_word_list"
+        android:orientation="horizontal">
+        <!-- 输入框 -->
+        <EditText
+            android:id="@+id/up_word_add_input"
+            android:layout_width="300dp"
+            android:layout_height="match_parent" />
+
+        <!-- 增加button -->
+        <com.gc.materialdesign.views.ButtonRectangle
+            android:id="@+id/up_word_add_btn"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:text="@string/add">
+        </com.gc.materialdesign.views.ButtonRectangle>
+
+    </LinearLayout>
+
+</RelativeLayout>
