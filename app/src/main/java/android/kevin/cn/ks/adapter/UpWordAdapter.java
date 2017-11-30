@@ -2,7 +2,6 @@ package android.kevin.cn.ks.adapter;
 
 import android.content.Context;
 import android.kevin.cn.ks.R;
-import android.kevin.cn.ks.domain.PlanStatistics;
 import android.kevin.cn.ks.domain.UpWord;
 import android.view.LayoutInflater;
 import android.view.View;

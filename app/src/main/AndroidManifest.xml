@@ -3,6 +3,7 @@
     package="android.kevin.cn.ks">
 
     <uses-permission android:name="android.permission.SET_DEBUG_APP" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"

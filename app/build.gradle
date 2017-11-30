@@ -40,5 +40,7 @@ dependencies {
     compile 'com.prolificinteractive:material-calendarview:1.4.3'
     compile 'io.reactivex:rxjava:1.0.14' // rx
     compile 'io.reactivex:rxandroid:1.0.1' // rx
+    compile 'com.squareup.retrofit2:retrofit:2.3.0' // retrofit 2
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0' // retrofit 2
     testCompile 'junit:junit:4.12'
 }

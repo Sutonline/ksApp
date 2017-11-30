@@ -11,7 +11,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class Plan {
 
-    private Integer id;
+    private Long id;
     private String name;
     private String desc;
 }
