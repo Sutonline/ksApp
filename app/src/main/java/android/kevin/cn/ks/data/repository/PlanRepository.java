@@ -1,9 +1,11 @@
 package android.kevin.cn.ks.data.repository;
 
+import android.kevin.cn.ks.common.Result;
 import android.kevin.cn.ks.domain.Plan;
 
 import java.util.List;
 
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 
 /**
@@ -12,7 +14,7 @@ import retrofit2.http.GET;
  */
 public interface PlanRepository {
 
-    @GET("http://localhost/app/listAllPlan")
-    List<Plan> listAll();
+    @GET("app/listAllPlan")
+    Observable<Result<List<Plan>>> listAll();
 
 }

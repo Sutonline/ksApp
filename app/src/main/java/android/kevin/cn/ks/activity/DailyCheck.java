@@ -5,8 +5,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.kevin.cn.ks.R;
 import android.kevin.cn.ks.adapter.PlanAdapter;
+import android.kevin.cn.ks.common.Result;
+import android.kevin.cn.ks.common.RxResultCompat;
+import android.kevin.cn.ks.common.RxSchedulerHelper;
+import android.kevin.cn.ks.data.manage.PlanDataManager;
 import android.kevin.cn.ks.domain.Plan;
+import android.kevin.cn.ks.util.DataManagerFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -22,10 +28,13 @@ import net.steamcrafted.materialiconlib.MaterialIconView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+
+import io.reactivex.Observable;
 
 /**
  * @author yongkang.zhang
- *         Created by yongkang.zhang on 2017/11/6.
+ * Created by yongkang.zhang on 2017/11/6.
  */
 
 public class DailyCheck extends BaseActivity {
@@ -46,13 +55,14 @@ public class DailyCheck extends BaseActivity {
     private MaterialIconView settings;
     // check的8个button
     private static final Integer[] CHECK_BTNS = new Integer[]{R.id.check_btn_1, R.id.check_btn_2,
-        R.id.check_btn_3, R.id.check_btn_4, R.id.check_btn_5, R.id.check_btn_6, R.id.check_btn_7, R.id.check_btn_8};
+            R.id.check_btn_3, R.id.check_btn_4, R.id.check_btn_5, R.id.check_btn_6, R.id.check_btn_7, R.id.check_btn_8};
     private static int CHECKED_BTNS = 0;
     // 是否今天已签到
     private static int CHECK_FLAG = 0;
     // up 内容和压制内容
     private int curUpIndex = 0;
     private static final String[] UP_WORDS = new String[10];
+    private PlanDataManager planDataManager = DataManagerFactory.getManager(PlanDataManager.class);
 
     static {
         initUpWords();
@@ -62,14 +72,14 @@ public class DailyCheck extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.daily_check_layout);
-        planLayout = (LinearLayout) findViewById(R.id.plan);
-        addPlan = (ButtonRectangle) findViewById(R.id.add_plan);
-        up = (ButtonRectangle) findViewById(R.id.up_btn);
-        check = (ButtonRectangle) findViewById(R.id.check_btn);
-        giveUp = (ButtonRectangle) findViewById(R.id.gp_btn);
-        planName = (TextView) findViewById(R.id.plan_name);
-        calendar = (MaterialIconView) findViewById(R.id.calendar);
-        statistics = (MaterialIconView) findViewById(R.id.statistics);
+        planLayout = findViewById(R.id.plan);
+        addPlan = findViewById(R.id.add_plan);
+        up = findViewById(R.id.up_btn);
+        check = findViewById(R.id.check_btn);
+        giveUp = findViewById(R.id.gp_btn);
+        planName = findViewById(R.id.plan_name);
+        calendar = findViewById(R.id.calendar);
+        statistics = findViewById(R.id.statistics);
         settings = findViewById(R.id.settings);
 
         initButton();
@@ -114,27 +124,25 @@ public class DailyCheck extends BaseActivity {
     private void initCheck() {
         // 每次init都置成0
         CHECKED_BTNS = 1;
-        check.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogPlus dialogPlus = DialogPlus.newDialog(getActivity())
-                        .setGravity(Gravity.CENTER)
-                        .setContentHolder(new ViewHolder(R.layout.check_dialog_layout))
-                        .setPadding(10, 10, 10, 10)
-                        .setCancelable(true)
-                        .create();
-                for (int i = 0; i < 8; i++) {
-                    ButtonRectangle button = (ButtonRectangle) dialogPlus.getHolderView().findViewById(CHECK_BTNS[i]);
-                    button.setOnClickListener(checkBtnClick(dialogPlus));
-                }
-                dialogPlus.show();
+        check.setOnClickListener(v -> {
+            DialogPlus dialogPlus = DialogPlus.newDialog(getActivity())
+                    .setGravity(Gravity.CENTER)
+                    .setContentHolder(new ViewHolder(R.layout.check_dialog_layout))
+                    .setPadding(10, 10, 10, 10)
+                    .setCancelable(true)
+                    .create();
+            for (int i = 0; i < 8; i++) {
+                ButtonRectangle button = dialogPlus.getHolderView().findViewById(CHECK_BTNS[i]);
+                button.setOnClickListener(checkBtnClick(dialogPlus));
             }
+            dialogPlus.show();
         });
     }
 
     private void initUp() {
         up.setOnClickListener(new View.OnClickListener() {
             int cur_index = 0;
+
             @Override
             public void onClick(View v) {
                 final DialogPlus dialogPlus = DialogPlus.newDialog(getActivity())
@@ -149,36 +157,28 @@ public class DailyCheck extends BaseActivity {
 
                 // 坚持成功
                 ButtonRectangle keep = view.findViewById(R.id.up_keep);
-                keep.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // 需要加进去统计
-                        dialogPlus.dismiss();
-                    }
+                keep.setOnClickListener(v12 -> {
+                    // 需要加进去统计
+                    dialogPlus.dismiss();
                 });
 
                 // 继续
                 final ButtonRectangle down = view.findViewById(R.id.up_down);
-                down.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ButtonRectangle down = (ButtonRectangle) v;
-                        // 判断一下text
-                        if (cur_index >= 9) {
-                            down.setText("boom");
-                            down.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    dialogPlus.dismiss();
-                                    // 坚持天数置为0
-                                }
-                            });
-                            return;
-                        }
-
-                        textView.setText(UP_WORDS[cur_index]);
-                        cur_index += 1;
+                down.setOnClickListener(v1 -> {
+                    ButtonRectangle down1 = (ButtonRectangle) v1;
+                    // 判断一下text
+                    if (cur_index >= 9) {
+                        down1.setText("boom");
+                        down1.setOnClickListener((ve) -> {
+                                dialogPlus.dismiss();
+                                // 坚持天数置为0
+                            }
+                        );
+                        return;
                     }
+
+                    textView.setText(UP_WORDS[cur_index]);
+                    cur_index += 1;
                 });
 
                 dialogPlus.show();
@@ -187,39 +187,28 @@ public class DailyCheck extends BaseActivity {
     }
 
     private void initGiveUp() {
-        giveUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final DialogPlus dialogPlus = DialogPlus.newDialog(getActivity())
-                        .setContentHolder(new ViewHolder(R.layout.give_up_layout))
-                        .setPadding(10, 10, 10, 10)
-                        .setCancelable(true)
-                        .setGravity(Gravity.CENTER)
-                        .create();
+        giveUp.setOnClickListener(v -> {
+            final DialogPlus dialogPlus = DialogPlus.newDialog(getActivity())
+                    .setContentHolder(new ViewHolder(R.layout.give_up_layout))
+                    .setPadding(10, 10, 10, 10)
+                    .setCancelable(true)
+                    .setGravity(Gravity.CENTER)
+                    .create();
 
-                // 确认按钮
-                ButtonRectangle confirm = (ButtonRectangle) dialogPlus.getHolderView().findViewById(R.id.gp_confirm);
-                confirm.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // 放弃的时候
-                        IS_HAS_PLAN = 0;
-                        dialogPlus.dismiss();
-                    }
-                });
+            // 确认按钮
+            ButtonRectangle confirm = dialogPlus.getHolderView().findViewById(R.id.gp_confirm);
+            confirm.setOnClickListener(v1 -> {
+                // 放弃的时候
+                IS_HAS_PLAN = 0;
+                dialogPlus.dismiss();
+            });
 
-                // 取消按钮
-                ButtonRectangle cancle = (ButtonRectangle) dialogPlus.getHolderView().findViewById(R.id.gp_cancle);
-                cancle.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialogPlus.dismiss();
-                    }
-                });
+            // 取消按钮
+            ButtonRectangle cancle = dialogPlus.getHolderView().findViewById(R.id.gp_cancle);
+            cancle.setOnClickListener(v12 -> dialogPlus.dismiss());
 
-                // 显示dialog
-                dialogPlus.show();
-            }
+            // 显示dialog
+            dialogPlus.show();
         });
 
     }
@@ -229,12 +218,9 @@ public class DailyCheck extends BaseActivity {
      * 查看日历
      */
     private void initCalendar() {
-        calendar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CalendarActivity.class);
-                startActivity(intent);
-            }
+        calendar.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), CalendarActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -242,12 +228,9 @@ public class DailyCheck extends BaseActivity {
      * 初始化资料统计
      */
     private void initStatistics() {
-        statistics.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), StatisticsActivity.class);
-                startActivity(intent);
-            }
+        statistics.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), StatisticsActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -256,41 +239,46 @@ public class DailyCheck extends BaseActivity {
      * 初始化设置
      */
     private void initSettings() {
-        Intent intent = new Intent(getActivity(), SettingActivity.class);
-        startActivity(intent);
+        settings.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), SettingActivity.class);
+            startActivity(intent);
+        });
+
     }
 
 
     // plan change dialog
     private View.OnClickListener planChange() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initPlanList();
-                PlanAdapter planAdapter = new PlanAdapter(getActivity(), PLAN_LIST);
-                final DialogPlus dialogPlus = DialogPlus.newDialog(getActivity())
-                        .setHeader(R.layout.plan_list_header_layout)
-                        //  不使用确定和取消按钮
-                        // .setFooter(R.layout.plan_list_footer_layout)
-                        .setAdapter(planAdapter)
-                        .setOnItemClickListener(new OnItemClickListener() {
-                            @Override
-                            public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
-                                showPlan(PLAN_LIST.get(position));
-                                Toast.makeText(getActivity(), "选择的是: " + PLAN_LIST.get(position).getId(),
-                                        Toast.LENGTH_SHORT).show();
-                                dialog.dismiss();
-                            }
-                        })
-                        .setExpanded(true)
-                        .setGravity(Gravity.CENTER)
-                        .setInAnimation(R.anim.abc_fade_in)
-                        .setOutAnimation(R.anim.abc_fade_out)
-                        .setPadding(10, 10, 10, 30)
-                        .setCancelable(true)
-                        .create();
-                dialogPlus.show();
-            }
+        return v -> {
+            initPlanList();
+            PlanAdapter planAdapter = new PlanAdapter(getActivity(), PLAN_LIST);
+            final DialogPlus dialogPlus = DialogPlus.newDialog(getActivity())
+                    .setHeader(R.layout.plan_list_header_layout)
+                    //  不使用确定和取消按钮
+                    // .setFooter(R.layout.plan_list_footer_layout)
+                    .setAdapter(planAdapter)
+                    .setOnItemClickListener(new OnItemClickListener() {
+                        @Override
+                        public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+                            showPlan(PLAN_LIST.get(position));
+                            Toast.makeText(getActivity(), "选择的是: " + PLAN_LIST.get(position).getId(),
+                                    Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        }
+                    })
+                    .setExpanded(true)
+                    .setGravity(Gravity.CENTER)
+                    .setInAnimation(R.anim.abc_fade_in)
+                    .setOutAnimation(R.anim.abc_fade_out)
+                    .setPadding(10, 10, 10, 30)
+                    .setCancelable(true)
+                    .create();
+            dialogPlus.show();
+
+            // 增加Rx的调用
+            // planDataManager.listAll().subscribeOn()
+            Observable<Result<List<Plan>>> observable = planDataManager.listAll().compose(RxSchedulerHelper.io_main());
+            RxResultCompat.<List<Plan>>convert().apply(observable).subscribe(RxResultCompat.handle(plans -> plans.forEach(i -> Log.i("dddd", i.toString())), throwable -> Log.e("ddd", "发生了错误" + throwable.getMessage())));
         };
     }
 
@@ -319,11 +307,11 @@ public class DailyCheck extends BaseActivity {
         if (PLAN_LIST.size() > 0) {
             return;
         }
-        Plan plan = new Plan(1, "戒心", "戒心desc");
+        Plan plan = new Plan(1L, "戒心", "戒心desc");
         PLAN_LIST.add(plan);
-        plan = new Plan(2, "健身", "健身desc");
+        plan = new Plan(2L, "健身", "健身desc");
         PLAN_LIST.add(plan);
-        plan = new Plan(3, "其他", "其他desc");
+        plan = new Plan(3L, "其他", "其他desc");
         PLAN_LIST.add(plan);
     }
 
