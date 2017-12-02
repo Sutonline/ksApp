@@ -3,7 +3,6 @@ package android.kevin.cn.ks.common;
 import android.kevin.cn.ks.enums.ResultTypeEnum;
 import android.kevin.cn.ks.exception.BizException;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 

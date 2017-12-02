@@ -6,6 +6,6 @@ package android.kevin.cn.ks.common;
  */
 public class Constants {
 
-    public static final String REST_BASE_URL = "http://10.0.2.2/";
+    public static final String REST_BASE_URL = "http://10.0.2.2/app/";
 
 }

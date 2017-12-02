@@ -4,6 +4,7 @@ import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * up word
@@ -11,6 +12,7 @@ import lombok.Data;
  * Created by yongkang.zhang on 2017/11/28.
  */
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class UpWord {
 

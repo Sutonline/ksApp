@@ -105,9 +105,7 @@ public class StatisticsActivity extends BaseActivity {
     }
 
     void fillList() {
-        while(list.size() <= 3) {
-            list.add(new PlanStatistics(1L, new Plan(Long.parseLong(list.size() + ""), "测试", "描述"), 5));
-        }
+        // TODO IMPLMENTED
     }
 
     private void emptyList() {

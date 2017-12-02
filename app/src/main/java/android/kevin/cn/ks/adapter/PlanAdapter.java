@@ -38,7 +38,7 @@ public class PlanAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return list.get(position).getId();
+        return list.get(position).getPlanId();
     }
 
     @Override
@@ -48,7 +48,7 @@ public class PlanAdapter extends BaseAdapter {
         if (convertView == null) {
             viewHolder = new ViewHolder();
             view = LayoutInflater.from(context).inflate(R.layout.plan_item_layout, null);
-            viewHolder.planItem = (TextView) view.findViewById(R.id.plan_item);
+            viewHolder.planItem = view.findViewById(R.id.plan_item);
             view.setTag(viewHolder);
         }
 

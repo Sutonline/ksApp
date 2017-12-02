@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.kevin.cn.ks.R;
 import android.kevin.cn.ks.adapter.PlanAdapter;
-import android.kevin.cn.ks.common.Result;
 import android.kevin.cn.ks.common.RxResultCompat;
 import android.kevin.cn.ks.common.RxSchedulerHelper;
 import android.kevin.cn.ks.data.manage.PlanDataManager;
@@ -28,9 +27,6 @@ import net.steamcrafted.materialiconlib.MaterialIconView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
-
-import io.reactivex.Observable;
 
 /**
  * @author yongkang.zhang
@@ -63,10 +59,6 @@ public class DailyCheck extends BaseActivity {
     private int curUpIndex = 0;
     private static final String[] UP_WORDS = new String[10];
     private PlanDataManager planDataManager = DataManagerFactory.getManager(PlanDataManager.class);
-
-    static {
-        initUpWords();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -250,21 +242,18 @@ public class DailyCheck extends BaseActivity {
     // plan change dialog
     private View.OnClickListener planChange() {
         return v -> {
-            initPlanList();
             PlanAdapter planAdapter = new PlanAdapter(getActivity(), PLAN_LIST);
+            loadPlanList(planAdapter);
             final DialogPlus dialogPlus = DialogPlus.newDialog(getActivity())
                     .setHeader(R.layout.plan_list_header_layout)
                     //  不使用确定和取消按钮
                     // .setFooter(R.layout.plan_list_footer_layout)
                     .setAdapter(planAdapter)
-                    .setOnItemClickListener(new OnItemClickListener() {
-                        @Override
-                        public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
-                            showPlan(PLAN_LIST.get(position));
-                            Toast.makeText(getActivity(), "选择的是: " + PLAN_LIST.get(position).getId(),
-                                    Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
-                        }
+                    .setOnItemClickListener((dialog, item, view, position) -> {
+                        showPlan(PLAN_LIST.get(position));
+                        Toast.makeText(getActivity(), "选择的是: " + PLAN_LIST.get(position).getPlanId(),
+                                Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
                     })
                     .setExpanded(true)
                     .setGravity(Gravity.CENTER)
@@ -275,44 +264,42 @@ public class DailyCheck extends BaseActivity {
                     .create();
             dialogPlus.show();
 
-            // 增加Rx的调用
-            // planDataManager.listAll().subscribeOn()
-            Observable<Result<List<Plan>>> observable = planDataManager.listAll().compose(RxSchedulerHelper.io_main());
-            RxResultCompat.<List<Plan>>convert().apply(observable).subscribe(RxResultCompat.handle(plans -> plans.forEach(i -> Log.i("dddd", i.toString())), throwable -> Log.e("ddd", "发生了错误" + throwable.getMessage())));
+
         };
     }
 
     private View.OnClickListener checkBtnClick(final DialogPlus dialogPlus) {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 每一个button点击的时候变颜色
-                ButtonRectangle buttonRectangle = (ButtonRectangle) v;
-                buttonRectangle.setBackgroundColor(Color.parseColor("#33cc33"));
+        return v -> {
+            // 每一个button点击的时候变颜色
+            ButtonRectangle buttonRectangle = (ButtonRectangle) v;
+            buttonRectangle.setBackgroundColor(Color.parseColor("#33cc33"));
 
-                // 检查是否8个都点击了，如果是的话就打卡成功
-                if (CHECKED_BTNS >= 8) {
-                    Toast.makeText(getActivity(), "签到成功", Toast.LENGTH_SHORT).show();
-                    dialogPlus.dismiss();
-                }
-
-                CHECKED_BTNS += 1;
+            // 检查是否8个都点击了，如果是的话就打卡成功
+            if (CHECKED_BTNS >= 8) {
+                Toast.makeText(getActivity(), "签到成功", Toast.LENGTH_SHORT).show();
+                dialogPlus.dismiss();
             }
+
+            CHECKED_BTNS += 1;
         };
     }
 
 
-    private void initPlanList() {
-        // 防止重复添加
-        if (PLAN_LIST.size() > 0) {
-            return;
-        }
-        Plan plan = new Plan(1L, "戒心", "戒心desc");
-        PLAN_LIST.add(plan);
-        plan = new Plan(2L, "健身", "健身desc");
-        PLAN_LIST.add(plan);
-        plan = new Plan(3L, "其他", "其他desc");
-        PLAN_LIST.add(plan);
+    private void loadPlanList(PlanAdapter planAdapter) {
+        // 清空list
+        PLAN_LIST.clear();
+        // 加载数据
+        planDataManager.listAll()
+                .compose(RxSchedulerHelper.io_main())
+                .compose(RxResultCompat.convert())
+                .subscribe(list -> {
+                    if (list == null || list.isEmpty()) {
+                        shortShow("没有up word");
+                    } else {
+                        PLAN_LIST.addAll(list);
+                        planAdapter.notifyDataSetChanged();
+                    }
+                }, e -> Log.e("DailyCheck", e.getMessage()));
     }
 
     private static void initUpWords() {

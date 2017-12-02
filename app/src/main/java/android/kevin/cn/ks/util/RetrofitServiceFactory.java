@@ -18,7 +18,6 @@ public class RetrofitServiceFactory {
     // 单例retrofit
     private static Retrofit retrofit;
 
-
     public static <T> T getServiceBean(Class<T> clazz) {
         if (retrofit == null) {
             init();
