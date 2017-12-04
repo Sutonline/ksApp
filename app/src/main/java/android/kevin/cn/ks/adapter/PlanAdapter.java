@@ -19,7 +19,7 @@ public class PlanAdapter extends BaseAdapter {
 
     private Context context;
     private List<Plan> list;
-    private static ViewHolder viewHolder;
+    private ViewHolder viewHolder;
 
     public PlanAdapter(Context context, List<Plan> list) {
         this.context = context;
@@ -44,20 +44,24 @@ public class PlanAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Plan plan = list.get(position);
-        View view;
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            view = LayoutInflater.from(context).inflate(R.layout.plan_item_layout, null);
-            viewHolder.planItem = view.findViewById(R.id.plan_item);
-            view.setTag(viewHolder);
+            convertView = LayoutInflater.from(context).inflate(R.layout.plan_item_layout, null);
+            viewHolder.planItem = convertView.findViewById(R.id.plan_item);
+            viewHolder.planNo = convertView.findViewById(R.id.plan_no);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        viewHolder.planNo.setText("".concat(String.valueOf(position + 1)).concat("、"));
         viewHolder.planItem.setText(plan.getName());
 
-        return viewHolder.planItem;
+        return convertView;
     }
 
     private static class ViewHolder {
+        TextView planNo;
         TextView planItem;
     }
 }

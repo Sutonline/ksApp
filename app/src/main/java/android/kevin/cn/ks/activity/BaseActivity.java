@@ -4,14 +4,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.kevin.cn.ks.layout.BoomMenuLayout;
+import android.kevin.cn.ks.util.LogUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.nightonke.boommenu.BoomButtons.BoomButton;
 import com.nightonke.boommenu.OnBoomListener;
+
+import java.util.function.Consumer;
 
 /**
  * author: yongkang.zhang
@@ -83,6 +87,13 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void shortShow(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    protected Consumer<? extends Throwable> handleException(String errorMsg) {
+        return e -> {
+            shortShow(errorMsg);
+            Log.e(getActivity().getClass().getSimpleName(), e.getMessage(), e);
+        };
     }
 
 }

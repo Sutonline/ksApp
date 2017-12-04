@@ -1,5 +1,7 @@
 package android.kevin.cn.ks.common;
 
+import android.kevin.cn.ks.util.LogUtil;
+
 import io.reactivex.functions.Consumer;
 
 /**
@@ -24,6 +26,10 @@ public class RxExceptionHandler<T extends Throwable> implements Consumer<T> {
     @Override
     public void accept(T t) throws Exception {
         consumer.accept(t);
+    }
+
+    public static Consumer<? extends Throwable> handle() {
+        return (e) -> LogUtil.e(e.getMessage(), e);
     }
 
 

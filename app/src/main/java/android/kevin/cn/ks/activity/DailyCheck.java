@@ -11,7 +11,6 @@ import android.kevin.cn.ks.data.manage.PlanDataManager;
 import android.kevin.cn.ks.domain.Plan;
 import android.kevin.cn.ks.util.DataManagerFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -20,12 +19,12 @@ import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonRectangle;
 import com.orhanobut.dialogplus.DialogPlus;
-import com.orhanobut.dialogplus.OnItemClickListener;
 import com.orhanobut.dialogplus.ViewHolder;
 
 import net.steamcrafted.materialiconlib.MaterialIconView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -43,6 +42,7 @@ public class DailyCheck extends BaseActivity {
     private ButtonRectangle check;
     private ButtonRectangle giveUp;
     private TextView planName;
+    private TextView keepDays;
     // 日历icon
     private MaterialIconView calendar;
     // 统计资料icon
@@ -59,6 +59,10 @@ public class DailyCheck extends BaseActivity {
     private int curUpIndex = 0;
     private static final String[] UP_WORDS = new String[10];
     private PlanDataManager planDataManager = DataManagerFactory.getManager(PlanDataManager.class);
+    // 当期计划
+    private Plan curPlan;
+    // 当天是否签到
+    private Boolean isCheck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +74,7 @@ public class DailyCheck extends BaseActivity {
         check = findViewById(R.id.check_btn);
         giveUp = findViewById(R.id.gp_btn);
         planName = findViewById(R.id.plan_name);
+        keepDays = findViewById(R.id.keep_days);
         calendar = findViewById(R.id.calendar);
         statistics = findViewById(R.id.statistics);
         settings = findViewById(R.id.settings);
@@ -78,6 +83,9 @@ public class DailyCheck extends BaseActivity {
     }
 
     private void initButton() {
+        // init data
+
+
         // 初始化计划dialog
         initPlan();
 
@@ -114,6 +122,28 @@ public class DailyCheck extends BaseActivity {
     }
 
     private void initCheck() {
+        // 检查是否有计划
+        if (IS_HAS_PLAN == 0) {
+            shortShow("请先设置计划");
+            return;
+        }
+
+        // 检查今天是否签到
+        planDataManager.isCheck(this.curPlan.getPlanId(), new Date())
+                .compose(RxSchedulerHelper.io_main())
+                .compose(RxResultCompat.convert())
+                .subscribe(result -> {
+                    if (result) {
+                        isCheck = true;
+                    }
+                }, e -> handleException("获取签到信息错误"));
+
+        // 如果已签到，则返回
+        if (isCheck) {
+            shortShow("今天已签到");
+            return;
+        }
+
         // 每次init都置成0
         CHECKED_BTNS = 1;
         check.setOnClickListener(v -> {
@@ -251,19 +281,16 @@ public class DailyCheck extends BaseActivity {
                     .setAdapter(planAdapter)
                     .setOnItemClickListener((dialog, item, view, position) -> {
                         showPlan(PLAN_LIST.get(position));
-                        Toast.makeText(getActivity(), "选择的是: " + PLAN_LIST.get(position).getPlanId(),
-                                Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                     })
                     .setExpanded(true)
                     .setGravity(Gravity.CENTER)
-                    .setInAnimation(R.anim.abc_fade_in)
-                    .setOutAnimation(R.anim.abc_fade_out)
+                    .setInAnimation(R.anim.fade_in_center)
+                    .setOutAnimation(R.anim.fade_out_center)
                     .setPadding(10, 10, 10, 30)
                     .setCancelable(true)
                     .create();
             dialogPlus.show();
-
 
         };
     }
@@ -277,6 +304,16 @@ public class DailyCheck extends BaseActivity {
             // 检查是否8个都点击了，如果是的话就打卡成功
             if (CHECKED_BTNS >= 8) {
                 Toast.makeText(getActivity(), "签到成功", Toast.LENGTH_SHORT).show();
+                this.curPlan.setCheckDate(new Date());
+                planDataManager.check(this.curPlan)
+                        .compose(RxSchedulerHelper.io_main())
+                        .compose(RxResultCompat.convert())
+                        .subscribe(result -> {
+                            if (result) {
+                                this.isCheck = true;
+                                shortShow("签到成功");
+                            }
+                        }, e -> handleException("网络错误"));
                 dialogPlus.dismiss();
             }
 
@@ -294,25 +331,12 @@ public class DailyCheck extends BaseActivity {
                 .compose(RxResultCompat.convert())
                 .subscribe(list -> {
                     if (list == null || list.isEmpty()) {
-                        shortShow("没有up word");
+                        shortShow("没有可用计划");
                     } else {
                         PLAN_LIST.addAll(list);
                         planAdapter.notifyDataSetChanged();
                     }
-                }, e -> Log.e("DailyCheck", e.getMessage()));
-    }
-
-    private static void initUpWords() {
-        UP_WORDS[0] = "come on 1";
-        UP_WORDS[1] = "come on 2";
-        UP_WORDS[2] = "come on 3";
-        UP_WORDS[3] = "come on 4";
-        UP_WORDS[4] = "come on 5";
-        UP_WORDS[5] = "come on 6";
-        UP_WORDS[6] = "come on 7";
-        UP_WORDS[7] = "come on 8";
-        UP_WORDS[8] = "come on 9";
-        UP_WORDS[9] = "come on 10";
+                }, e -> handleException("加载计划发生了错误"));
     }
 
     private void showPlan(Plan plan) {
@@ -321,13 +345,39 @@ public class DailyCheck extends BaseActivity {
         if (this.planName.getText().equals(plan.getName())) {
             return;
         }
-        this.planLayout.setVisibility(View.VISIBLE);
-        this.addPlan.setVisibility(View.INVISIBLE);
-        this.planName.setText(plan.getName());
+        planDataManager.changePlan(plan.getPlanId())
+                .compose(RxSchedulerHelper.io_main())
+                .compose(RxResultCompat.convert())
+                .subscribe(result -> {
+                    if (result) {
+                        this.planLayout.setVisibility(View.VISIBLE);
+                        this.addPlan.setVisibility(View.INVISIBLE);
+                        this.planName.setText(plan.getName());
+                        this.keepDays.setText(String.valueOf(plan.getKeepDays()));
+                        shortShow("设置成功");
+                    }
+                }, e -> handleException("设置计划错误"));
     }
 
 
     protected Context getActivity() {
         return DailyCheck.this;
+    }
+
+    private void initData() {
+        // 获取当前有在执行的计划
+        planDataManager.getCurrent()
+                .compose(RxSchedulerHelper.io_main())
+                .compose(RxResultCompat.convert())
+                .subscribe(plan -> {
+                    if (plan.getPlanId() == null) {
+                        IS_HAS_PLAN = 0;
+                    } else {
+                        this.curPlan = plan;
+                        showPlan(plan);
+                    }
+                }, e -> handleException("加载当前计划错误"));
+
+
     }
 }

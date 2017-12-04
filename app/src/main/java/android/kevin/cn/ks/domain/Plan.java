@@ -32,4 +32,6 @@ public class Plan {
     private Integer successUps;
 
     private Integer longestDays;
+
+    private Date checkDate;
 }

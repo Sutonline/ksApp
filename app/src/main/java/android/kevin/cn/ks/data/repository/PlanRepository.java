@@ -3,6 +3,7 @@ package android.kevin.cn.ks.data.repository;
 import android.kevin.cn.ks.common.Result;
 import android.kevin.cn.ks.domain.Plan;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Observer;
 
@@ -11,6 +12,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * @author yongkang.zhang
@@ -36,6 +38,12 @@ public interface PlanRepository {
     @PUT("deleteRecentPlan")
     Observable<Result<List<Plan>>> deleteRecentPlan();
 
+    @GET("getCurrent")
+    Observable<Result<Plan>> getCurrent();
 
+    @GET("isCheck")
+    Observable<Result<Boolean>> isCheck(@Query(value = "planId") Long planId, @Query(value = "checkDate") Date checkDate);
 
+    @PUT("check")
+    Observable<Result<Boolean>> check(@Body Plan plan);
 }

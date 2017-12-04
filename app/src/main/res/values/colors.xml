@@ -1,6 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!--基础色-->
+    <color name="colorDefault">#002A39</color>
+    <!--点击色-->
+    <color name="colorPressed">#90002A39</color>
+    <!--错误提示色-->
+    <color name="colorError">#FF3300</color>
+
+    <!--数据库查询出文字显示色-->
+    <color name="black">#ff000000</color>
+
+    <!--背景及其他色-->
+    <color name="white">#ffffffff</color>
+    <color name="gray_666666">#ff666666</color>
+    <color name="viewfinder_mask">#bb25353e</color>
+    <color name="result_view">#b0000000</color>
+    <color name="background_gray">#ebebeb</color>
+    <color name="background_line_color">#dddddd</color>
+    <color name="background_points">#C0BCBC</color>
+    <color name="background_white">#ffffff</color>
+
+    <!--超链接色-->
+    <color name="primary">@color/text_view_link</color>
+
+
+    <!--可操作部件颜色，如输入框，下拉框-->
+    <color name="text_yellow">#FF6D00</color>
+    <color name="state_selected">#80FF6D00</color>
+    <color name="color_common_background">#f7f7f7</color>
+    <color name="color_appbar_split_line">#dedede</color>
+    <color name="color_recycleview_line">#f0f0f0</color>
+
+    <color name="color_common_text">#333333</color>
+    <!--强调色-->
+    <color name="text_red">#dc143c</color>
+
+    <!--透明-->
+    <color name="transparent">#00000000</color>
+    <!--<color name="white_dark">#F2F2F2</color>-->
+
+    <!--<color name="light_gray">#ffe6e6e6</color>
+    <color name="light_red">#ffff2323</color>-->
+
+    <!--<color name="blue">#0000ff</color>
+    <color name="order_value">#ff666666</color>
+    <color name="frameback">#fff3f3f3</color>
+    <color name="finder_mask">#60000000</color>
+    <color name="login_background">#fff0f0f0</color>
+
+    <color name="viewfinder_mask">#bb25353e</color>
+    <color name="possible_result_points">#f8b62a</color>
+
+    <color name="viewfinder_laser">#ffff0000</color>
+    <color name="viewfinder_corner">#ffffffff</color> -->
+
+    <!--<color name="accent">#74c0fe</color>
+   <color name="primary_dark">#2c92e7</color>
+   <color name="background_gray">#ebebeb</color>
+   <color name="background_gray_light">#F2F2F2</color>
+
+
+   <color name="text_black">#333333</color>
+   <color name="text_gray">#C0BCBC</color>
+   <color name="text_gray_light">#d6d6d6</color>
+   <color name="text_gray_dark">#757575</color>
+
+   <color name="text_blue">#BBB7B7</color>-->
+
+    <!--<color name="text_blue_light">#00A1E9</color>
+    &lt;!&ndash; 分割线 &ndash;&gt;
+    <color name="divider_line_color">#dddddd</color>
+
+    &lt;!&ndash; 菜单 &ndash;&gt;
+    <color name="navi_text_gray">#dddddd</color>
+    <color name="navi_text_light">#2d9ecc</color>
+
+    <color name="themeColor">#115C31</color>-->
+
+    <color name="colorPrimary">#3F51B5</color>
+
+    <color name="catering_order_list_num">#00b50f</color>
+
+    <color name="catering_order_list_tv_front">#898989</color>
+
+
+    <color name="display_lattice_status_up">#67c895</color>
+    <color name="display_lattice_status_down">#ff8d8d</color>
+    <color name="display_lattice_status_adjust">#f2db80</color>
 </resources>

@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:textSize="17sp"
+        android:textSize="16sp"
         android:text="@string/please_select_plan" />
 
 

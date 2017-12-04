@@ -46,19 +46,22 @@ public class UpWordAdapter extends BaseAdapter {
         UpWord upWord = list.get(position);
         if (convertView == null) {
             viewHolder = new UpWordAdapter.ViewHolder();
-            convertView = LayoutInflater.from(context).inflate(R.layout.statistics_item_layout, null);
-            viewHolder.upWordItem = convertView.findViewById(R.id.plan_name);
+            convertView = LayoutInflater.from(context).inflate(R.layout.up_item_layout, null);
+            viewHolder.upWordNo = convertView.findViewById(R.id.up_word_no);
+            viewHolder.upWordItem = convertView.findViewById(R.id.up_word_text);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (UpWordAdapter.ViewHolder) convertView.getTag();
         }
 
         viewHolder.upWordItem.setText(upWord.getWord());
+        viewHolder.upWordNo.setText("".concat(String.valueOf(position + 1)).concat("、"));
 
         return convertView;
     }
 
     private static class ViewHolder {
+        TextView upWordNo;
         TextView upWordItem;
     }
 }

@@ -1,24 +1,27 @@
 package android.kevin.cn.ks.activity;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.kevin.cn.ks.R;
 import android.kevin.cn.ks.adapter.UpWordAdapter;
-import android.kevin.cn.ks.common.Result;
 import android.kevin.cn.ks.common.RxResultCompat;
 import android.kevin.cn.ks.common.RxSchedulerHelper;
 import android.kevin.cn.ks.data.manage.UpWordDataManager;
 import android.kevin.cn.ks.domain.UpWord;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.gc.materialdesign.views.ButtonRectangle;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.scwang.smartrefresh.layout.util.DensityUtil.dp2px;
 
 /**
  * @author yongkang.zhang
@@ -55,6 +58,28 @@ public class SettingActivity extends BaseActivity {
     }
 
     private void initList() {
+        // SwipeMenuCreator
+        SwipeMenuCreator creator = (menu) -> {
+            SwipeMenuItem deleteItem = new SwipeMenuItem(getApplicationContext());
+            deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,0x3F, 0x25)));
+            deleteItem.setWidth(dp2px(60));
+            deleteItem.setIcon(R.drawable.ic_delete);
+            menu.addMenuItem(deleteItem);
+        };
+        upWordList.setMenuCreator(creator);
+        upWordList.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
+        upWordList.setOnMenuItemClickListener((position, menu, index) -> {
+            dataManager.deleteById(this.list.get(index).getId())
+                    .compose(RxSchedulerHelper.io_main())
+                    .compose(RxResultCompat.convert())
+                    .subscribe(result -> {
+                        if (result) {
+                            shortShow("删除成功");
+                            loadData();
+                        }
+                    }, e -> handleException("删除错误"));
+            return false;
+        });
         adapter = new UpWordAdapter(this.list, getActivity());
         upWordList.setAdapter(adapter);
         loadData();
@@ -68,10 +93,7 @@ public class SettingActivity extends BaseActivity {
                 .subscribe(words -> {
                     this.list.addAll(words);
                     this.adapter.notifyDataSetChanged();
-                }, e -> {
-                    shortShow("加载错误");
-                    Log.e("SettingActivity", "加载错误", e);
-                });
+                }, e -> handleException("加载错误"));
     }
 
     private void initAdd() {
@@ -95,10 +117,11 @@ public class SettingActivity extends BaseActivity {
                         if (result) {
                             list.add(upWord);
                             adapter.notifyDataSetChanged();
+                            shortShow("添加成功");
                         } else {
                             shortShow("添加up word错误");
                         }
-                    }, e -> Log.e("SettingActivity", e.getMessage()));
+                    }, e -> handleException("添加错误"));
 
         });
     }

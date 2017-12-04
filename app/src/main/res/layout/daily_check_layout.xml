@@ -10,8 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="#e6fff2">
+        android:orientation="vertical">
 
         <RelativeLayout
             android:id="@+id/daily_check_head"
@@ -35,7 +34,7 @@
                     android:layout_gravity="center"
                     />
                 <TextView
-                    android:id="@+id/insist_days"
+                    android:id="@+id/keep_days"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/insist_days"
@@ -93,6 +92,7 @@
                     />
 
             </LinearLayout>
+
         </RelativeLayout>
 
         <!-- 这里是统计 -->
