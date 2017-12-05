@@ -30,14 +30,15 @@
                     android:id="@+id/plan_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/plan_name"
+                    android:textSize="16sp"
                     android:layout_gravity="center"
                     />
                 <TextView
                     android:id="@+id/keep_days"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/insist_days"
+                    android:textSize="14sp"
+                    android:layout_marginStart="15dp"
                     android:layout_gravity="center"
                     />
             </LinearLayout>

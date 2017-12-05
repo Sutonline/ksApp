@@ -2,12 +2,14 @@ package android.kevin.cn.ks.activity;
 
 import android.kevin.cn.ks.R;
 import android.kevin.cn.ks.adapter.PlanStatictisAdapter;
+import android.kevin.cn.ks.common.RxResultCompat;
+import android.kevin.cn.ks.common.RxSchedulerHelper;
+import android.kevin.cn.ks.data.manage.PlanDataManager;
 import android.kevin.cn.ks.domain.Plan;
-import android.kevin.cn.ks.domain.PlanStatistics;
 import android.kevin.cn.ks.layout.StatisticsDaysLayout;
+import android.kevin.cn.ks.util.DataManagerFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.View;
 
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.gc.materialdesign.views.ButtonRectangle;
@@ -17,8 +19,9 @@ import java.util.List;
 
 /**
  * 统计活动
+ *
  * @author yongkang.zhang
- * Created by yongkang.zhang on 2017/11/21.
+ *         Created by yongkang.zhang on 2017/11/21.
  */
 public class StatisticsActivity extends BaseActivity {
 
@@ -29,7 +32,9 @@ public class StatisticsActivity extends BaseActivity {
     private SwipeMenuListView listView;
     private ButtonRectangle delete;
     // 最近三条计划
-    private List<PlanStatistics> list = new ArrayList<>();
+    private List<Plan> recentList = new ArrayList<>();
+    private PlanDataManager planDataManager = DataManagerFactory.getManager(PlanDataManager.class);
+    private Plan curPlan;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +52,9 @@ public class StatisticsActivity extends BaseActivity {
     }
 
     void init() {
+        // load data
+        loadData();
+
         // 初始化当前
         initCurrent();
 
@@ -57,27 +65,27 @@ public class StatisticsActivity extends BaseActivity {
     void initCurrent() {
         curDays.setCreator(new StatisticsDaysLayout.Creator()
                 .name("当前天数")
-                .days("5")
+                .days("".concat(String.valueOf(curPlan.getKeepDays())))
                 .dayLineColor("#ffcccc")
                 .dayRoundColor("#ffcccc")
         );
         successUps.setCreator(new StatisticsDaysLayout.Creator()
                 .name("up次数")
-                .days("9")
+                .days("".concat(String.valueOf(curPlan.getSuccessUps())))
                 .dayLineColor("#0454d6")
                 .dayRoundColor("#ffcccc")
         );
 
         failTimes.setCreator(new StatisticsDaysLayout.Creator()
                 .name("失败次数")
-                .days("2")
+                .days("".concat(String.valueOf(curPlan.getGiveCnt())))
                 .dayLineColor("#ffcccc")
                 .dayRoundColor("#ffcccc")
         );
 
         longestDays.setCreator(new StatisticsDaysLayout.Creator()
                 .name("最长天数")
-                .days("8")
+                .days("".concat(String.valueOf(curPlan.getLongestDays())))
                 .dayLineColor("#ffcccc")
                 .dayRoundColor("#ffcccc")
         );
@@ -87,27 +95,43 @@ public class StatisticsActivity extends BaseActivity {
 
     void initHistory() {
 
-        // 把list填充
-        fillList();
-
         // 设置adapter
-        PlanStatictisAdapter adapter = new PlanStatictisAdapter(getActivity(), list);
+        PlanStatictisAdapter adapter = new PlanStatictisAdapter(getActivity(), this.recentList);
         listView.setAdapter(adapter);
 
         // 设置delete
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                emptyList();
-                shortShow("删除成功");
-            }
+        delete.setOnClickListener(v -> {
+            emptyList();
         });
     }
 
-    void fillList() {
-        // TODO IMPLMENTED
+    void loadData() {
+        refreshRecentPlan();
+        refreshCurPlan();
+    }
+
+    void refreshRecentPlan() {
+        planDataManager.listRencentPlan()
+                .compose(RxSchedulerHelper.io_main())
+                .compose(RxResultCompat.convert())
+                .subscribe(plans -> this.recentList.addAll(plans), e -> handleException("加载最近计划错误"));
+    }
+
+    void refreshCurPlan() {
+        planDataManager.getCurrent()
+                .compose(RxSchedulerHelper.io_main())
+                .compose(RxResultCompat.convert())
+                .subscribe(plan -> this.curPlan = plan, e -> handleException());
     }
 
     private void emptyList() {
+        planDataManager.deleteRecentPlan()
+                .compose(RxSchedulerHelper.io_main())
+                .compose(RxResultCompat.convert())
+                .subscribe(result -> {
+                    if (result) {
+                        shortShow("删除成功");
+                    }
+                }, e -> handleException());
     }
 }

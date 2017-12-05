@@ -2,6 +2,7 @@ package android.kevin.cn.ks.data.manage;
 
 import android.kevin.cn.ks.common.Result;
 import android.kevin.cn.ks.data.repository.PlanRepository;
+import android.kevin.cn.ks.domain.PlanHistory;
 import android.kevin.cn.ks.domain.Plan;
 import android.kevin.cn.ks.util.RetrofitServiceFactory;
 
@@ -38,7 +39,7 @@ public class PlanDataManager {
         return planRepository.listRencentPlan();
     }
 
-    public Observable<Result<List<Plan>>> deleteRecentPlan() {
+    public Observable<Result<Boolean>> deleteRecentPlan() {
         return planRepository.deleteRecentPlan();
     }
 
@@ -52,5 +53,9 @@ public class PlanDataManager {
 
     public Observable<Result<Boolean>> check(Plan plan){
         return planRepository.check(plan);
+    }
+
+    public Observable<Result<List<PlanHistory>>> listHistory(Long planId) {
+        return planRepository.listHistory(planId);
     }
 }

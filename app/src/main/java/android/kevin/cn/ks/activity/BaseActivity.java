@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.nightonke.boommenu.BoomButtons.BoomButton;
 import com.nightonke.boommenu.OnBoomListener;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
 import java.util.function.Consumer;
 
 /**
@@ -30,6 +32,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        JodaTimeAndroid.init(this);
         boomMenuLayout = new BoomMenuLayout(this);
         initBmbClickListener(this);
     }
@@ -94,6 +97,10 @@ public class BaseActivity extends AppCompatActivity {
             shortShow(errorMsg);
             Log.e(getActivity().getClass().getSimpleName(), e.getMessage(), e);
         };
+    }
+
+    protected Consumer<? extends Throwable> handleException() {
+        return e -> Log.e(getActivity().getClass().getSimpleName(), e.getMessage(), e);
     }
 
 }

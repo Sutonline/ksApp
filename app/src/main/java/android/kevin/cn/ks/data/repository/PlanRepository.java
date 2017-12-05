@@ -1,11 +1,11 @@
 package android.kevin.cn.ks.data.repository;
 
 import android.kevin.cn.ks.common.Result;
+import android.kevin.cn.ks.domain.PlanHistory;
 import android.kevin.cn.ks.domain.Plan;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Observer;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;
@@ -36,7 +36,7 @@ public interface PlanRepository {
     Observable<Result<List<Plan>>> listRencentPlan();
 
     @PUT("deleteRecentPlan")
-    Observable<Result<List<Plan>>> deleteRecentPlan();
+    Observable<Result<Boolean>> deleteRecentPlan();
 
     @GET("getCurrent")
     Observable<Result<Plan>> getCurrent();
@@ -46,4 +46,7 @@ public interface PlanRepository {
 
     @PUT("check")
     Observable<Result<Boolean>> check(@Body Plan plan);
+
+    @GET("listHistory/{planId}")
+    Observable<Result<List<PlanHistory>>> listHistory(@Path(value = "planId") Long planId);
 }

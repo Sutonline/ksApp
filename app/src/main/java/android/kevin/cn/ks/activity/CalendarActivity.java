@@ -2,9 +2,15 @@ package android.kevin.cn.ks.activity;
 
 import android.graphics.Color;
 import android.kevin.cn.ks.R;
+import android.kevin.cn.ks.common.RxResultCompat;
+import android.kevin.cn.ks.common.RxSchedulerHelper;
+import android.kevin.cn.ks.data.manage.PlanDataManager;
+import android.kevin.cn.ks.domain.PlanHistory;
 import android.kevin.cn.ks.layout.CalendarDecorator;
+import android.kevin.cn.ks.util.DataManagerFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
@@ -21,11 +27,17 @@ import java.util.List;
 public class CalendarActivity extends BaseActivity {
 
     private CalendarDecorator decorator;
+    private Long planId;
+    private PlanDataManager planDataManager = DataManagerFactory.getManager(PlanDataManager.class);
+    private List<PlanHistory> list = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.calendar_layout);
+        planId = getIntent().getLongExtra("planId", -1L);
+        init();
+
         MaterialCalendarView mcv = findViewById(R.id.calendarView);
         mcv.setCurrentDate(new Date());
         mcv.addDecorator(decorator == null ? getCalendarDecorator() : decorator);
@@ -36,11 +48,26 @@ public class CalendarActivity extends BaseActivity {
         List<CalendarDay> list = new ArrayList<>();
 
         list.add(CalendarDay.today());
-        list.add(CalendarDay.from(2017, 10, 18));
         int color = Color.parseColor("#ff80d5");
         decorator.setDays(list);
         decorator.setColor(color);
 
         return decorator;
     }
+
+    void init() {
+        refreshList();
+    }
+
+    void refreshList() {
+        if (planId == -1) {
+            Log.d("StatisticsActivity", "目前没有计划");
+            return;
+        }
+        planDataManager.listHistory(planId)
+                .compose(RxSchedulerHelper.io_main())
+                .compose(RxResultCompat.convert())
+                .subscribe(checkRecords -> this.list.addAll(checkRecords), e -> handleException("加载打卡日期错误"));
+    }
+
 }
