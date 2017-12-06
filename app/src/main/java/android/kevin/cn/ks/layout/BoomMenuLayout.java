@@ -6,7 +6,10 @@ import android.kevin.cn.ks.R;
 import android.kevin.cn.ks.activity.DailyCheck;
 import android.kevin.cn.ks.activity.ManageVps;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -50,6 +53,13 @@ public class BoomMenuLayout extends RelativeLayout {
     public BoomMenuLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initView(context);
+    }
+
+    //定位
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
+        //可以在这里确定这个viewGroup的：宽 = r-l.高 = b - t
     }
 
     private void initView(Context context) {

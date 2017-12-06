@@ -4,7 +4,9 @@ import android.kevin.cn.ks.common.Constants;
 import android.kevin.cn.ks.convert.fastjson.FastJsonConvertFactory;
 
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
@@ -29,8 +31,14 @@ public class RetrofitServiceFactory {
     // 单例的实例化
     private static synchronized void init() {
         if (retrofit == null) {
+            OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                    .connectTimeout(3, TimeUnit.SECONDS)
+                    .readTimeout(5, TimeUnit.SECONDS)
+                    .writeTimeout(5, TimeUnit.SECONDS)
+                    .build();
 
             retrofit = new Retrofit.Builder()
+                    .client(okHttpClient)
                     .baseUrl(Constants.REST_BASE_URL)
                     .callbackExecutor(Executors.newFixedThreadPool(5))
                     .addConverterFactory(FastJsonConvertFactory.create())

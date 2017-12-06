@@ -7,8 +7,8 @@
     <!-- 成功坚持 -->
     <android.kevin.cn.ks.layout.StatisticsDaysLayout
         android:id="@+id/curDays"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true"
         >
@@ -17,8 +17,8 @@
     <!-- 成功克制 -->
     <android.kevin.cn.ks.layout.StatisticsDaysLayout
         android:id="@+id/successUps"
-        android:layout_height="60dp"
-        android:layout_width="60dp"
+        android:layout_height="70dp"
+        android:layout_width="70dp"
         android:layout_below="@id/curDays"
         android:layout_toStartOf="@id/curDays" />
 
@@ -26,8 +26,8 @@
     <!-- 失败次数 -->
     <android.kevin.cn.ks.layout.StatisticsDaysLayout
         android:id="@+id/failTimes"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_alignBaseline="@id/successUps"
         android:layout_alignBottom="@id/successUps"
         android:layout_toEndOf="@id/curDays">
@@ -36,8 +36,8 @@
     <!-- 最长坚持 -->
     <android.kevin.cn.ks.layout.StatisticsDaysLayout
         android:id="@+id/longestDays"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_below="@id/successUps"
         android:layout_centerHorizontal="true">
     </android.kevin.cn.ks.layout.StatisticsDaysLayout>
@@ -47,24 +47,27 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:orientation="vertical"
-        android:layout_marginTop="240dp"
+        android:layout_marginTop="300dp"
         >
         <TextView
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:gravity="center"
+            android:textSize="20sp"
             android:text="@string/recently_bad_habits"/>
 
         <!-- 坏习惯  天数(只保留最近的3条)-->
         <com.baoyz.swipemenulistview.SwipeMenuListView
             android:id="@+id/plan_history_list"
             android:layout_width="match_parent"
+            android:layout_marginTop="15dp"
             android:layout_height="150dp" />
         <!-- 删除记录 -->
         <com.gc.materialdesign.views.ButtonRectangle
             android:id="@+id/delete"
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:layout_marginTop="40dp"
             android:text="@string/delete">
         </com.gc.materialdesign.views.ButtonRectangle>
     </LinearLayout>

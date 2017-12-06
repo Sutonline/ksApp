@@ -21,7 +21,7 @@
             app:bmb_piecePlaceEnum="piecePlace_dot_9_2"
             app:bmb_buttonPlaceEnum="buttonPlace_sc_9_1"
             app:bmb_boomInWholeScreen="false"
-            />
+             />
     </FrameLayout>
 
 </LinearLayout>

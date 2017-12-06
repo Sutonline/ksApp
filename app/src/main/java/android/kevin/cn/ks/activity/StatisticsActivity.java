@@ -19,9 +19,7 @@ import java.util.List;
 
 /**
  * 统计活动
- *
  * @author yongkang.zhang
- *         Created by yongkang.zhang on 2017/11/21.
  */
 public class StatisticsActivity extends BaseActivity {
 
@@ -54,40 +52,35 @@ public class StatisticsActivity extends BaseActivity {
     void init() {
         // load data
         loadData();
-
-        // 初始化当前
-        initCurrent();
-
-        // 初始化历史
-        initHistory();
     }
 
     void initCurrent() {
+        boolean hasPlan = curPlan != null;
         curDays.setCreator(new StatisticsDaysLayout.Creator()
                 .name("当前天数")
-                .days("".concat(String.valueOf(curPlan.getKeepDays())))
-                .dayLineColor("#ffcccc")
-                .dayRoundColor("#ffcccc")
+                .days("".concat(String.valueOf(hasPlan ? curPlan.getKeepDays() : 0)))
+                .dayLineColor("#2bbc20")
+                .dayRoundColor("#2bbc20")
         );
         successUps.setCreator(new StatisticsDaysLayout.Creator()
                 .name("up次数")
-                .days("".concat(String.valueOf(curPlan.getSuccessUps())))
-                .dayLineColor("#0454d6")
-                .dayRoundColor("#ffcccc")
+                .days("".concat(String.valueOf(hasPlan ? curPlan.getSuccessUps() : 0)))
+                .dayLineColor("#e374ed")
+                .dayRoundColor("#e374ed")
         );
 
         failTimes.setCreator(new StatisticsDaysLayout.Creator()
                 .name("失败次数")
-                .days("".concat(String.valueOf(curPlan.getGiveCnt())))
-                .dayLineColor("#ffcccc")
-                .dayRoundColor("#ffcccc")
+                .days("".concat(String.valueOf(hasPlan ? curPlan.getGiveCnt() : 0)))
+                .dayLineColor("#e374ed")
+                .dayRoundColor("#e374ed")
         );
 
         longestDays.setCreator(new StatisticsDaysLayout.Creator()
                 .name("最长天数")
-                .days("".concat(String.valueOf(curPlan.getLongestDays())))
-                .dayLineColor("#ffcccc")
-                .dayRoundColor("#ffcccc")
+                .days("".concat(String.valueOf(hasPlan ? curPlan.getLongestDays() : 0)))
+                .dayLineColor("#2bbc20")
+                .dayRoundColor("#2bbc20")
         );
 
 
@@ -114,14 +107,20 @@ public class StatisticsActivity extends BaseActivity {
         planDataManager.listRencentPlan()
                 .compose(RxSchedulerHelper.io_main())
                 .compose(RxResultCompat.convert())
-                .subscribe(plans -> this.recentList.addAll(plans), e -> handleException("加载最近计划错误"));
+                .subscribe(plans -> {
+                    this.recentList.addAll(plans);
+                    initHistory();
+                }, e -> handleException("加载最近计划错误"));
     }
 
     void refreshCurPlan() {
         planDataManager.getCurrent()
                 .compose(RxSchedulerHelper.io_main())
                 .compose(RxResultCompat.convert())
-                .subscribe(plan -> this.curPlan = plan, e -> handleException());
+                .subscribe(plan -> {
+                    this.curPlan = plan;
+                    initCurrent();
+                }, e -> handleException());
     }
 
     private void emptyList() {

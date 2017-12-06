@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.scwang.smartrefresh.layout.util.DensityUtil;
+
 /**
  * statictis统计days layout
  * @author yongkang.zhang

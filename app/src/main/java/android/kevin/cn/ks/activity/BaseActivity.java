@@ -9,7 +9,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.nightonke.boommenu.BoomButtons.BoomButton;
@@ -28,6 +31,8 @@ public class BaseActivity extends AppCompatActivity {
 
     private BoomMenuLayout boomMenuLayout;
     public Activity currentAct;
+    private int xDelta;
+    private int yDelta;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

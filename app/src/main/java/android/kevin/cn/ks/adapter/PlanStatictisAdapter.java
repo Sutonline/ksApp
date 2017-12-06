@@ -58,7 +58,7 @@ public class PlanStatictisAdapter extends BaseAdapter {
         }
 
         viewHolder.planItem.setText(plan.getName());
-        viewHolder.keepDays.setText(Integer.toString(plan.getKeepDays()));
+        viewHolder.keepDays.setText(Integer.toString(plan.getKeepDays() == null ? 0 : plan.getKeepDays()));
 
         return convertView;
     }
