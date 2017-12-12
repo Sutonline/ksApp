@@ -28,4 +28,12 @@
     <string name="recently_bad_habits">Recently Bad Habits</string>
     <string name="up_words">up words:</string>
     <string name="add">add</string>
+    <string name="vps_list_title">vps列表</string>
+    <string name="vps_name">主机名称:</string>
+    <string name="vps_status">状态:</string>
+    <string name="total_bandwidth">总流量:</string>
+    <string name="cur_bandwidth">已用:</string>
+    <string name="ip">ip:</string>
+    <string name="cost">价格:</string>
+    <string name="welcome_word">每天向更美好的自己前进</string>
 </resources>

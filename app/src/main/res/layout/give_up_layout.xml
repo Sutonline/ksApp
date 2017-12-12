@@ -25,6 +25,7 @@
             android:layout_width="80dp"
             android:layout_height="40dp"
             android:layout_marginEnd="30dp"
+            android:background="#c40913"
             android:text="@string/confirm_gp_btn_text"
             />
 
@@ -32,6 +33,7 @@
             android:id="@+id/gp_cancle"
             android:layout_width="80dp"
             android:layout_height="40dp"
+            android:background="#1f9e80"
             android:text="@string/cancle_gp_btn_text"
             />
 

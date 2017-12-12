@@ -40,7 +40,8 @@
             android:gravity="center"
             android:text="@string/add"
             android:textAlignment="center"
-            android:textSize="6sp"></com.gc.materialdesign.views.ButtonRectangle>
+            android:background="#1f9e80"
+            android:textSize="6sp" />
 
     </LinearLayout>
 

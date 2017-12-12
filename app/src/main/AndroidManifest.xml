@@ -13,17 +13,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".activity.DailyCheck">
+        <activity android:name="cn.ks.activity.DailyCheck">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.ManageVps" />
-        <activity android:name=".activity.BaseActivity" />
-        <activity android:name=".activity.CalendarActivity" />
-        <activity android:name=".activity.StatisticsActivity" />
-        <activity android:name=".activity.SettingActivity" />
+        <activity android:name="cn.ks.activity.ManageVpsActivity" />
+        <activity android:name="cn.ks.activity.BaseActivity" />
+        <activity android:name="cn.ks.activity.CalendarActivity" />
+        <activity android:name="cn.ks.activity.StatisticsActivity" />
+        <activity android:name="cn.ks.activity.SettingActivity" />
+        <activity android:name="cn.ks.activity.VpsDetailActivity" />
     </application>
 
 </manifest>

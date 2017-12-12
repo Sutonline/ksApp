@@ -1,13 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/refreshLayout"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_common_split_line"
+        android:text="@string/vps_list_title"
+        android:textSize="18sp"
+        />
 
     <com.baoyz.swipemenulistview.SwipeMenuListView
         android:id="@+id/vps_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="460dp"
+        android:layout_marginTop="15dp"
+        />
 
 
-</com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+</LinearLayout>

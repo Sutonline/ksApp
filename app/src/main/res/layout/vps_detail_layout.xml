@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 基本信息 -->
+    <RelativeLayout
+        android:id="@+id/vps_detail_basic_info"
+        android:layout_width="match_parent"
+        android:layout_height="260dp">
+
+        <!-- 主机名称  -->
+        <LinearLayout
+            android:id="@+id/vps_detail_name_layout"
+            android:layout_width="160dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:text="@string/vps_name"
+                android:textSize="16sp"
+                android:textAlignment="textStart"
+                />
+            
+            <TextView
+                android:id="@+id/vps_detail_name"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:textSize="16sp"
+                android:textAlignment="textStart"
+                />
+        </LinearLayout>
+
+        <!-- 状态信息 -->
+        <LinearLayout
+            android:id="@+id/vps_detail_status_layout"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/vps_detail_name_layout">
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:text="@string/vps_status"
+                android:textSize="16sp"
+                android:textAlignment="textStart"
+                />
+            <TextView
+                android:id="@+id/vps_detail_status"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:textSize="16sp"
+                android:textAlignment="textStart"
+                />
+        </LinearLayout>
+
+        <!-- 总流量 -->
+        <LinearLayout
+            android:id="@+id/vps_detail_totalBand_layout"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_below="@id/vps_detail_name_layout">
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:text="@string/total_bandwidth"
+                android:textSize="16sp"
+                android:textAlignment="textStart"
+                />
+            <TextView
+                android:id="@+id/vps_detail_totalBand"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:textSize="16sp"
+                android:textAlignment="textStart"
+                />
+        </LinearLayout>
+
+        <!-- 当前流量 -->
+        <LinearLayout
+            android:id="@+id/vps_detail_curBand_layout"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_below="@id/vps_detail_status_layout"
+            android:layout_toEndOf="@id/vps_detail_name_layout">
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:text="@string/cur_bandwidth"
+                android:textSize="16sp"
+                android:textAlignment="textStart"
+                />
+            <TextView
+                android:id="@+id/vps_detail_curBand"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:textSize="16sp"
+                android:textAlignment="textStart"
+                />
+        </LinearLayout>
+
+        <!-- ip地址 -->
+        <LinearLayout
+            android:id="@+id/vps_detail_ip_layout"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_below="@id/vps_detail_totalBand_layout">
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:text="@string/ip"
+                android:textSize="16sp"
+                android:textAlignment="textStart"
+                />
+            <TextView
+                android:id="@+id/vps_detail_ip"
+                android:layout_width="160dp"
+                android:layout_height="30dp"
+                android:textSize="16sp"
+                android:textAlignment="textStart"
+                />
+        </LinearLayout>
+
+        <!-- 每月价格 -->
+        <LinearLayout
+            android:id="@+id/vps_detail_cost_layout"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_below="@id/vps_detail_curBand_layout"
+            android:layout_toEndOf="@id/vps_detail_name_layout">
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:text="@string/cost"
+                android:textSize="16sp"
+                android:textAlignment="textStart"
+                />
+            <TextView
+                android:id="@+id/vps_detail_cost"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:textSize="16sp"
+                android:textAlignment="textStart"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+    <!-- 流量监控 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="260dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/vps_detail_basic_info"
+        >
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </RelativeLayout>
+</RelativeLayout>

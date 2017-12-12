@@ -5,17 +5,17 @@
 
 
     <!-- 成功坚持 -->
-    <android.kevin.cn.ks.layout.StatisticsDaysLayout
+    <cn.ks.layout.StatisticsDaysLayout
         android:id="@+id/curDays"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true"
         >
-    </android.kevin.cn.ks.layout.StatisticsDaysLayout>
+    </cn.ks.layout.StatisticsDaysLayout>
 
     <!-- 成功克制 -->
-    <android.kevin.cn.ks.layout.StatisticsDaysLayout
+    <cn.ks.layout.StatisticsDaysLayout
         android:id="@+id/successUps"
         android:layout_height="70dp"
         android:layout_width="70dp"
@@ -24,23 +24,23 @@
 
 
     <!-- 失败次数 -->
-    <android.kevin.cn.ks.layout.StatisticsDaysLayout
+    <cn.ks.layout.StatisticsDaysLayout
         android:id="@+id/failTimes"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_alignBaseline="@id/successUps"
         android:layout_alignBottom="@id/successUps"
         android:layout_toEndOf="@id/curDays">
-    </android.kevin.cn.ks.layout.StatisticsDaysLayout>
+    </cn.ks.layout.StatisticsDaysLayout>
 
     <!-- 最长坚持 -->
-    <android.kevin.cn.ks.layout.StatisticsDaysLayout
+    <cn.ks.layout.StatisticsDaysLayout
         android:id="@+id/longestDays"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_below="@id/successUps"
         android:layout_centerHorizontal="true">
-    </android.kevin.cn.ks.layout.StatisticsDaysLayout>
+    </cn.ks.layout.StatisticsDaysLayout>
 
     <!-- 历史坏习惯 -->
     <LinearLayout
