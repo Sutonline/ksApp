@@ -46,7 +46,7 @@ public class ManageVpsActivity extends BaseActivity {
 
         listView.setOnMenuItemClickListener((position, menu, index) -> {
             Intent intent = new Intent(getActivity(), VpsDetailActivity.class);
-            Integer id = AppContext.VPS_LIST.get(index).getId();
+            Integer id = AppContext.VPS_LIST.get(position).getId();
             intent.putExtra("id", id);
             startActivity(intent);
             // false : close the menu; true : not close the menu

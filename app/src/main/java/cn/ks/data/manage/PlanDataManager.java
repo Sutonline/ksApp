@@ -47,7 +47,7 @@ public class PlanDataManager {
         return planRepository.getCurrent();
     }
 
-    public Observable<Result<Boolean>> isCheck(Long planId, Date checkDate) {
+    public Observable<Result<Boolean>> isCheck(Long planId, String checkDate) {
         return planRepository.isCheck(planId, checkDate);
     }
 

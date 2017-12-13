@@ -70,7 +70,7 @@ public class SettingActivity extends BaseActivity {
         upWordList.setMenuCreator(creator);
         upWordList.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
         upWordList.setOnMenuItemClickListener((position, menu, index) -> {
-            dataManager.deleteById(this.list.get(index).getId())
+            dataManager.deleteById(this.list.get(position).getId())
                     .compose(RxSchedulerHelper.io_main())
                     .compose(RxResultCompat.convert())
                     .subscribe(result -> {

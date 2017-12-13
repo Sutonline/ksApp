@@ -61,7 +61,7 @@ public class StatisticsActivity extends BaseActivity {
     }
 
     void refreshCurrent() {
-        boolean hasPlan = curPlan != null;
+        boolean hasPlan = curPlan != null && curPlan.getPlanId() != null;
         curDays.setCreator(new StatisticsDaysLayout.Creator()
                 .name("当前天数")
                 .days("".concat(String.valueOf(hasPlan ? curPlan.getKeepDays() : 0)))

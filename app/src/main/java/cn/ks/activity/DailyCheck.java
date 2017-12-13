@@ -386,9 +386,6 @@ public class DailyCheck extends BaseActivity {
 
         // 加载upwords
         loadUpWords();
-
-        // 是否打卡
-        loadIsCheck();
     }
 
     private void loadCurPlan() {
@@ -398,8 +395,11 @@ public class DailyCheck extends BaseActivity {
                 .subscribe(plan -> {
                     if (plan.getPlanId() == null) {
                         IS_HAS_PLAN = 0;
+                        // 如果有签到信息清空map
+                        AppContext.CHECK_INFO.clear();
                     } else {
                         this.curPlan = plan;
+                        loadIsCheck();
                         showPlan(plan);
                     }
                     hideOrShow();
@@ -420,7 +420,7 @@ public class DailyCheck extends BaseActivity {
             return;
         }
 
-        planDataManager.isCheck(this.curPlan.getPlanId(), new Date())
+        planDataManager.isCheck(this.curPlan.getPlanId(), LocalDate.now().toString("yyyyMMdd"))
                 .compose(RxSchedulerHelper.io_main())
                 .compose(RxResultCompat.convert())
                 .subscribe(result -> {

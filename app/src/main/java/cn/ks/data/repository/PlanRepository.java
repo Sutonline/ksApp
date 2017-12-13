@@ -42,7 +42,7 @@ public interface PlanRepository {
     Observable<Result<Plan>> getCurrent();
 
     @GET("isCheck")
-    Observable<Result<Boolean>> isCheck(@Query(value = "planId") Long planId, @Query(value = "checkDate") Date checkDate);
+    Observable<Result<Boolean>> isCheck(@Query(value = "planId") Long planId, @Query(value = "checkDate") String checkDate);
 
     @PUT("check")
     Observable<Result<Boolean>> check(@Body Plan plan);

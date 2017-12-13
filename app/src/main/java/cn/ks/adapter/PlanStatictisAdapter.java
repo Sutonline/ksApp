@@ -51,20 +51,20 @@ public class PlanStatictisAdapter extends BaseAdapter {
             viewHolder = new PlanStatictisAdapter.ViewHolder();
             convertView = LayoutInflater.from(context).inflate(R.layout.statistics_item_layout, null);
             viewHolder.planItem = convertView.findViewById(R.id.plan_name);
-            viewHolder.keepDays = convertView.findViewById(R.id.keep_days);
+            viewHolder.longest_days = convertView.findViewById(R.id.longest_days);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
         viewHolder.planItem.setText(plan.getName());
-        viewHolder.keepDays.setText(Integer.toString(plan.getKeepDays() == null ? 0 : plan.getKeepDays()));
+        viewHolder.longest_days.setText(Integer.toString(plan.getLongestDays() == null ? 0 : plan.getLongestDays()));
 
         return convertView;
     }
 
     private static class ViewHolder {
         TextView planItem;
-        TextView keepDays;
+        TextView longest_days;
     }
 }

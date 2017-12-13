@@ -32,6 +32,7 @@ public class CalendarActivity extends BaseActivity {
     private Long planId;
     private PlanDataManager planDataManager = DataManagerFactory.getManager(PlanDataManager.class);
     private List<PlanHistory> list = new ArrayList<>();
+    private MaterialCalendarView mcv;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,15 +41,17 @@ public class CalendarActivity extends BaseActivity {
         planId = getIntent().getLongExtra("planId", -1L);
         init();
 
-        MaterialCalendarView mcv = findViewById(R.id.calendarView);
+        mcv = findViewById(R.id.calendarView);
         mcv.setCurrentDate(new Date());
-        mcv.addDecorator(decorator == null ? getCalendarDecorator() : decorator);
     }
 
     private CalendarDecorator getCalendarDecorator() {
         decorator = new CalendarDecorator();
         List<CalendarDay> list = new ArrayList<>();
-
+        // 添加打卡日期
+        if (this.list != null) {
+            this.list.forEach(p -> list.add(CalendarDay.from(p.getCheckDate())));
+        }
         list.add(CalendarDay.today());
         int color = Color.parseColor("#ff80d5");
         decorator.setDays(list);
@@ -69,7 +72,11 @@ public class CalendarActivity extends BaseActivity {
         planDataManager.listHistory(planId)
                 .compose(RxSchedulerHelper.io_main())
                 .compose(RxResultCompat.convert())
-                .subscribe(checkRecords -> this.list.addAll(checkRecords), new RxExceptionHandler<>(e -> shortShow("加载打卡日期错误")));
+                .subscribe(checkRecords -> {
+                    this.list.addAll(checkRecords);
+                    decorator = getCalendarDecorator();
+                    mcv.addDecorator(decorator);
+                }, new RxExceptionHandler<>(e -> shortShow("加载打卡日期错误")));
     }
 
 }
